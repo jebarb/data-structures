@@ -61,6 +61,14 @@ public class ListImpLinks implements ListImp {
             data = next.data;
             index = next.index;
             next = next.next;
+        } else if (next.index == n) {
+            if (next.next == null) {
+                next = null;
+            } else {
+                next.data = next.next.data;
+                next.index = next.next.index;
+                next.next = next.next.next;
+            }
         } else {
             next.rem(n);
         }
