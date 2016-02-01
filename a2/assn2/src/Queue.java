@@ -25,10 +25,18 @@ public class Queue {
     }
 
     public void insmiddle() {
+        if (headIndex == tailIndex) {
+            headIndex = 0;
+            tailIndex = 0;
+        }
         list.ins("TEST INSERT MIDDLE", tailIndex++ / 2);
     }
 
     public void insfront() {
+        if (headIndex == tailIndex) {
+            headIndex = 0;
+            tailIndex = 0;
+        }
         list.ins("TEST INSERT FRONT", headIndex);
         tailIndex++;
     }

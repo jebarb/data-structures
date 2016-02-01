@@ -23,13 +23,13 @@ public class ListImpLinks implements ListImp {
         if (data == null) {
             data = s;
             index = n;
-        } else if (next == null) {
-            next = new ListImpLinks(s, null, n);
-        } else if (index == n) {
+        } else if (index >= n) {
             next = new ListImpLinks(data, next, n + 1);
             data = s;
             index = n;
             increment_index();
+        } else if (next == null) {
+            next = new ListImpLinks(s, null, n);
         } else if (n > index && n <= next.index) {
             next = new ListImpLinks(s, next, n);
             if (n == next.next.index) {
@@ -53,7 +53,6 @@ public class ListImpLinks implements ListImp {
 
     @Override
     public void rem(int n) {
-        System.out.println("Remove: " + n + " True index: " + index);
         if (next == null) {
             if (index == n) {
                 data = null;

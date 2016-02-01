@@ -33,6 +33,7 @@ public class BridgeQueueListDemo {
     }
 
     private static void testBoth(int n, Queue ll, Queue arr) {
+        n++;
         while (n-- > 0) {
             if (RAND.nextBoolean()) {
                 enqTest(RAND.nextInt(6) + 2, ll, arr);
@@ -52,19 +53,24 @@ public class BridgeQueueListDemo {
 
         if (args.length == 0) {
 
-
-            enqTest(10, ll1, ar1);
+            //testBoth(3, ll1, ar1);
+            enqTest(5,ll1,ar1);
+            //deqTest(5,ll1,ar1);
+            System.out.println("\nInserted into middle");
             ll1.insmiddle();
+            ar1.insmiddle();
+            System.out.println("ll1 front: " + ll1.front() + "\nar1 front: " + ar1.front() + "\nInserted into front");
             ll1.insfront();
-            deqTest(9,ll1,ar1);
-
-            /*
-            testBoth(10, ll1, ar1);
+            ar1.insfront();
+            System.out.println("ll1 front: " + ll1.front()  + "\nar1 front: " + ar1.front() + "\n");
+            //enqTest(5,ll1,ar1);
+            //deqTest(5,ll1,ar1);
+            testBoth(3, ll1, ar1);
 
             System.out.println("\nEmpty on finish: ");
             System.out.println(ll1.empty());
             System.out.println(ar1.empty());
-            */
+
 
         } else {
 
