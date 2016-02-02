@@ -7,7 +7,6 @@ public class ListImpLinks implements ListImp {
     private ListImpLinks next;
     private int index;
 
-
     private ListImpLinks(String data, ListImpLinks next, int index) {
         this.data = data;
         this.next = next;
