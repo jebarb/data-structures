@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bec12e33-8c7c-4ed2-8d91-73968b79e8df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a2/ListImpLinks.class" afterPath="$PROJECT_DIR$/out/production/a2/ListImpLinks.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ListImpLinks.java" afterPath="$PROJECT_DIR$/src/ListImpLinks.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/A2.java" afterPath="$PROJECT_DIR$/A2.java" />
     </list>
     <ignored path="a2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -693,12 +691,12 @@
       <workItem from="1454345424004" duration="111000" />
       <workItem from="1454347529171" duration="1442000" />
       <workItem from="1454348991154" duration="598000" />
-      <workItem from="1454434468709" duration="29000" />
+      <workItem from="1454434468709" duration="615000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45410000" />
+    <option name="totallyTimeSpent" value="45996000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="11" y="45" width="2538" height="1544" extended-state="0" />
@@ -711,7 +709,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28136075" sideWeight="0.5031596" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29128277" sideWeight="0.49684045" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29128277" sideWeight="0.49684045" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15086888" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />

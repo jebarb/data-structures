@@ -159,9 +159,9 @@ class Queue {
     private int headIndex, tailIndex;
 
     public Queue(String s) {
-        if (s.equals("ListImpLinks")) {
+        if (s.equals("links")) {
             list = new ListImpLinks();
-        } else if (s.equals("ListImpArray")) {
+        } else if (s.equals("array")) {
             list = new ListImpArray();
         }
         headIndex = 0;
@@ -169,7 +169,7 @@ class Queue {
     }
 
     public Queue() {
-        this("ListImpLinks");
+        this("links");
     }
 
     public void enq(String s) {
@@ -193,14 +193,14 @@ class Queue {
     public boolean empty() {
         return list.empty();
     }
-
 }
 
 class BridgeQueueListDemo {
+
     public static void main(String args[]) {
 
-        Queue qLL = new Queue("ListImpLinks");
-        Queue qAL = new Queue("ListImpArray");
+        Queue qLL = new Queue("links");
+        Queue qAL = new Queue("array");
 
         if (args.length != 0) {
             qLL.enq(args[0]);
@@ -228,8 +228,6 @@ class BridgeQueueListDemo {
                 System.out.println(qAL.size());
             }
         }
-
-
         System.out.println();
     }
 }
