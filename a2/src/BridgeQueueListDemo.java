@@ -1,7 +1,3 @@
-/**
- * Created by jebarb on 1/27/16.
- */
-
 import java.util.Random;
 
 public class BridgeQueueListDemo {
@@ -55,16 +51,15 @@ public class BridgeQueueListDemo {
 
             //testBoth(3, ll1, ar1);
             enqTest(5,ll1,ar1);
-            //deqTest(5,ll1,ar1);
-            System.out.println("\nInserted into middle");
+            //System.out.println("\nInserted into middle");
             ll1.insmiddle();
             ar1.insmiddle();
-            System.out.println("ll1 front: " + ll1.front() + "\nar1 front: " + ar1.front() + "\nInserted into front");
+            //System.out.println("ll1 front: " + ll1.front() + "\nar1 front: " + ar1.front() + "\nInserted into front");
             ll1.insfront();
             ar1.insfront();
-            System.out.println("ll1 front: " + ll1.front()  + "\nar1 front: " + ar1.front() + "\n");
+            //System.out.println("ll1 front: " + ll1.front()  + "\nar1 front: " + ar1.front() + "\n");
             //enqTest(5,ll1,ar1);
-            //deqTest(5,ll1,ar1);
+            deqTest(7,ll1,ar1);
             testBoth(3, ll1, ar1);
 
             System.out.println("\nEmpty on finish: ");

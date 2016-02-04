@@ -1,10 +1,6 @@
-/**
- * Created by jebarb on 1/26/16.
- */
 public class Queue {
 
     private ListImp list;
-    private int headIndex, tailIndex;
 
     public Queue(String s) {
         if (s.equals("ListImpLinks")) {
@@ -12,43 +8,30 @@ public class Queue {
         } else if (s.equals("ListImpArray")) {
             list = new ListImpArray();
         }
-        headIndex = 0;
-        tailIndex = 0;
     }
 
     public Queue() {
-        this("ListImpLinks");
+        this("ListImpLinksSingle");
     }
 
     public void enq(String s) {
-        list.ins(s, tailIndex++);
-    }
-
-    public void insmiddle() {
-        if (headIndex == tailIndex) {
-            headIndex = 0;
-            tailIndex = 0;
-        }
-        list.ins("TEST INSERT MIDDLE", tailIndex++ / 2);
-    }
-
-    public void insfront() {
-        if (headIndex == tailIndex) {
-            headIndex = 0;
-            tailIndex = 0;
-        }
-        list.ins("TEST INSERT FRONT", headIndex);
-        tailIndex++;
+        list.ins(s, size());
     }
 
     public void deq() {
-        if (headIndex < tailIndex) {
-            list.rem(headIndex++);
-        }
+            list.rem(0);
+    }
+
+    public void insmiddle() {
+        list.ins("TEST INSERT MIDDLE", size() / 2);
+    }
+
+    public void insfront() {
+        list.ins("TEST INSERT FRONT", 0);
     }
 
     public String front() {
-        return list.get(headIndex);
+        return list.get(0);
     }
 
     public int size() {
