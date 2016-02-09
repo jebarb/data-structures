@@ -59,8 +59,6 @@ public class ListImpLinks implements ListImp {
             }
             if (n.next != null) {
                 n.next.prev = p;
-            } else {
-                tail = n;
             }
         }
         size++;
