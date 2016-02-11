@@ -1,18 +1,86 @@
-/*
-   class Assn3Main {
-   class Assn3Main {
-   public static void main (String[] args) {
-// in here code for doing the
-// interactive builder/tester mode
-// and the command line arg auto-execution mode
-   }
-   }
-   }
-   */
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+
+class Assn3Main {
+    public static void print(BST bst, int height, String s) {
+        for (int i = 0; i < height; i++) {
+            System.out.printf(" ");
+        }
+        System.out.printf(height + " " + s + ": " + bst.val() + "\n");
+        BST left = bst.getLeft();
+        BST right = bst.getRight();
+        if (left != null) print(left, height+1, "left");
+        if (right != null) print(right, height+1, "right");
+    }
+
+    //Allow:
+    //<command> <argument>
+    //OR
+    //<command>
+    //<argument>
+    private static String getNext(Scanner s) {
+        String res = s.findInLine("\\S.*");
+        System.out.println(res);
+        res = (res.length() == 0) ? s.next("\\S*") : res;
+        return res;
+    }
+
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            Scanner s = new Scanner(System.in);
+            BST bst = new BST();
+            while(true) {
+                switch (s.next("\\S*")) { 
+                    case "new": 
+                        bst = new BST();
+                        break;
+                    case "i":
+                        System.out.println(bst.insert(getNext(s)) + "\n");
+                        break;
+                    case "r": 
+                        System.out.println(bst.remove(s.nextLine()) + "\n");
+                        break;
+                    case "c": 
+                        System.out.println(bst.contains(s.nextLine()) + "\n");
+                        break;
+                    case "g": 
+                        break;
+                    case "x": 
+                        System.out.println(bst.findMax() + "\n");
+                        break;
+                    case "n": 
+                        System.out.println(bst.findMin() + "\n");
+                        break;
+                    case "v": 
+                        System.out.println(bst.val() + "\n");
+                        break;
+                    case "e": 
+                        System.out.println(bst.empty() + "\n");
+                        break;
+                    case "s": 
+                        System.out.println(bst.size() + "\n");
+                        break;
+                    case "h": 
+                        System.out.println(bst.height() + "\n");
+                        break;
+                    case "q": 
+                        return;
+                    case "p": 
+                        print(bst, 0, "root");
+                        System.out.println();
+                    case "f": 
+                        for (int i = 0; i < 30; i++) {
+                            bst.insert(MyRandom.nextString(5,15));
+                        }
+                }
+            }
+
+        } else {
+        }
+    }
+}
 
 class BST {
 
@@ -30,6 +98,7 @@ class BST {
         }
 
         private Node getNode(String s) {
+            if (data == null) return null;
             if (data.equals(s)) return this;
             if (data.compareTo(s) > 0) {
                 if (left == null) return null;
@@ -55,28 +124,29 @@ class BST {
         }
 
         private boolean remove(String s) {
+            if (data == null) return false;
             if (data.equals(s)) {
                 if (left != null) {
                     data = left.findMax().data;
-                    if (data.equals(left.data)) left = null;
-                    else left.remove(data);
-                    return true;
+                    left.remove(data);
+                    if (left.data == null) left = null;
                 } else if (right != null) {
                     data = right.findMin().data;
-                    if (data.equals(right.data)) right = null;
-                    else right.remove(data);
-                    return true;
+                    right.remove(data);
+                    if (right.data == null) right = null;
                 } else {
                     data = null;
-                    return false;
                 }
+                return true;
             } else if (data.compareTo(s) > 0) {
                 if (left == null) return false;
-                else if (!left.remove(s)) left = null;
+                if (!left.remove(s)) return false;
+                if (left.data == null) left = null;
                 return true;
             } else if (data.compareTo(s) < 0) {
                 if (right == null) return false;
-                else if (!right.remove(s)) right = null;
+                if (!right.remove(s)) return false;
+                if (right.data == null) right = null;
                 return true;
             }
             return false;
@@ -92,11 +162,11 @@ class BST {
             else return this;
         }
 
-        private int getHeight(int i) {
+        private int getHeight() {
             int l = 0;
             int r = 0;
-            if (left != null) l = left.getHeight(i+1);
-            if (right != null) r += right.getHeight(i+1);
+            if (left != null) l += left.getHeight()+1;
+            if (right != null) r += right.getHeight()+1;
             return (l > r) ? l : r;
         }
 
@@ -110,12 +180,13 @@ class BST {
 
     //new       :          -->  BST
     public BST() {
-        this(null);
+        this.root = new Node(null, null, null);
+        this.size = 0;
     }
 
     public BST(String s) {
-        this.root = new Node(s, null, null);
-        this.size = 1;
+        this();
+        insert(s);
     }
 
     public BST(Node root, int size) {
@@ -127,7 +198,7 @@ class BST {
     //insert    :  String  -->      (or maybe a boolean showing success)
     public boolean insert(String s) {
         if (root.insert(s)) {
-            size--;
+            size++;
             return true;
         } else return false;
     }
@@ -178,7 +249,7 @@ class BST {
 
     //height    :          -->  int+ (an integer zero or larger)
     public int height() {
-        return root.getHeight(0);
+        return root.getHeight();
     }
 
     public BST getLeft() {
@@ -218,152 +289,4 @@ class MyRandom {
         return nextString(5, 25);
     }
 
-}
-
-
-class TreePrinter {
-
-    public static void main(String[] args) {
-
-        BST root = new BST("c");
-        root.insert("b");
-        root.insert("a");
-        root.insert("e");
-        root.insert("d");
-        root.insert("f");
-
-        //print(root);
-
-        //root.remove("c");
-
-        //print(root);
-
-        // test 2
-        root = new BST();
-        for (String val : new String[] { "h", "b", "r", "f", "a", "d", "q", "g" }) {
-            root.insert(val);
-            print(root);
-        }
-
-        for (String val : new String[] { "h", "g", "f", "d", "b", "a", "q", "r" }) {
-            print(root);
-            root.remove(val);
-        }
-        // test 3
-        root = new BST();
-        for (int i = 0; i < 15; i++) root.insert(MyRandom.nextString(1,2));
-        //print(root);
-    }
-
-    public static void print(BST root) {
-        List<List<String>> lines = new ArrayList<List<String>>();
-
-        List<BST> level = new ArrayList<BST>();
-        List<BST> next = new ArrayList<BST>();
-
-        level.add(root);
-        int nn = 1;
-
-        int widest = 0;
-
-        while (nn != 0) {
-            List<String> line = new ArrayList<String>();
-
-            nn = 0;
-
-            for (BST n : level) {
-                if (n == null) {
-                    line.add(null);
-
-                    next.add(null);
-                    next.add(null);
-                } else {
-                    String aa = n.val();
-                    line.add(aa);
-                    if (aa.length() > widest)
-                        widest = aa.length();
-
-                    next.add(n.getLeft());
-                    next.add(n.getRight());
-
-                    if (n.getLeft() != null)
-                        nn++;
-                    if (n.getRight() != null)
-                        nn++;
-                }
-            }
-
-            if (widest % 2 == 1)
-                widest++;
-
-            lines.add(line);
-
-            List<BST> tmp = level;
-            level = next;
-            next = tmp;
-            next.clear();
-        }
-
-        int perpiece = lines.get(lines.size() - 1).size() * (widest + 4);
-        for (int i = 0; i < lines.size(); i++) {
-            List<String> line = lines.get(i);
-            int hpw = (int) Math.floor(perpiece / 2f) - 1;
-
-            if (i > 0) {
-                for (int j = 0; j < line.size(); j++) {
-
-                    // split node
-                    char c = ' ';
-                    if (j % 2 == 1) {
-                        if (line.get(j - 1) != null) {
-                            c = (line.get(j) != null) ? '┴' : '┘';
-                        } else {
-                            if (j < line.size() && line.get(j) != null)
-                                c = '└';
-                        }
-                    }
-                    System.out.print(c);
-
-                    // lines and spaces
-                    if (line.get(j) == null) {
-                        for (int k = 0; k < perpiece - 1; k++) {
-                            System.out.print(" ");
-                        }
-                    } else {
-
-                        for (int k = 0; k < hpw; k++) {
-                            System.out.print(j % 2 == 0 ? " " : "─");
-                        }
-                        System.out.print(j % 2 == 0 ? "┌" : "┐");
-                        for (int k = 0; k < hpw; k++) {
-                            System.out.print(j % 2 == 0 ? "─" : " ");
-                        }
-                    }
-                }
-                System.out.println();
-            }
-
-            // print line of numbers
-            for (int j = 0; j < line.size(); j++) {
-
-                String f = line.get(j);
-                if (f == null)
-                    f = "";
-                int gap1 = (int) Math.ceil(perpiece / 2f - f.length() / 2f);
-                int gap2 = (int) Math.floor(perpiece / 2f - f.length() / 2f);
-
-                // a number
-                for (int k = 0; k < gap1; k++) {
-                    System.out.print(" ");
-                }
-                System.out.print(f);
-                for (int k = 0; k < gap2; k++) {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-
-            perpiece /= 2;
-        }
-    }
 }
