@@ -1,6 +1,5 @@
 import java.util.Random;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 class Assn3Main {
     public static void print(BST bst, int height, String s, String lines) {
