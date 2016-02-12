@@ -2,9 +2,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 class Assn3Main {
+
+    private static Scanner s;
+   // = new Scanner(System.in);
+    private static BST bst = new BST();
+
     public static void print(BST bst, int height, String s, String lines) {
         int i;
-        //System.out.println(lines);
+        if (bst == null) {
+            System.out.println("null");
+            return;
+        }
         for (i = 0; i < height; i++) {
             if (lines.charAt(i) == '1') System.out.printf(" |");
             else System.out.printf("  ");
@@ -28,75 +36,75 @@ class Assn3Main {
         if (right != null) print(right, height, "right", lines.concat("0"));
     }
 
-    //Allow:
-    //<command> <argument>
-    //OR
-    //<command>
-    //<argument>
-    private static String getNext(Scanner s) {
-        String res = s.findInLine("\\S.*");
-        if (res == null || res.length() == 0) {
-            res = s.nextLine();
-            res = s.nextLine();
+    private static void process() {
+        switch (s.next()) {
+            case "new":
+                bst = new BST();
+                System.out.println();
+                break;
+            case "i":
+                System.out.println(bst.insert(s.next()) + "\n");
+                break;
+            case "r": 
+                System.out.println(bst.remove(s.next()) + "\n");
+                break;
+            case "c": 
+                System.out.println(bst.contains(s.next()) + "\n");
+                break;
+            case "g": 
+                print(bst.get(s.next()), 0, "root", "0");
+                System.out.println();
+                break;
+            case "x": 
+                System.out.println(bst.findMax() + "\n");
+                break;
+            case "n": 
+                System.out.println(bst.findMin() + "\n");
+                break;
+            case "v": 
+                System.out.println(bst.val() + "\n");
+                break;
+            case "e": 
+                System.out.println(bst.empty() + "\n");
+                break;
+            case "s": 
+                System.out.println(bst.size() + "\n");
+                break;
+            case "h": 
+                System.out.println(bst.height() + "\n");
+                break;
+            case "q":
+                System.exit(0);
+            case "p":
+                print(bst, 0, "root", "0");
+                System.out.println();
+                break;
+            case "f": 
+                int num = s.nextInt();
+                for (int i = 0; i < num; i++) {
+                    bst.insert(MyRandom.nextString(5,15));
+                }
         }
-        return res;
     }
 
     public static void main(String[] args) {
         if (args.length == 0) {
-            Scanner s = new Scanner(System.in);
-            BST bst = new BST();
-            while(true) {
-                switch (s.next("\\S*")) { 
-                    case "new": 
-                        bst = new BST();
-                        System.out.println();
-                        break;
-                    case "i":
-                        System.out.println(bst.insert(getNext(s)) + "\n");
-                        break;
-                    case "r": 
-                        System.out.println(bst.remove(getNext(s)) + "\n");
-                        break;
-                    case "c": 
-                        System.out.println(bst.contains(getNext(s)) + "\n");
-                        break;
-                    case "g": 
-                        break;
-                    case "x": 
-                        System.out.println(bst.findMax() + "\n");
-                        break;
-                    case "n": 
-                        System.out.println(bst.findMin() + "\n");
-                        break;
-                    case "v": 
-                        System.out.println(bst.val() + "\n");
-                        break;
-                    case "e": 
-                        System.out.println(bst.empty() + "\n");
-                        break;
-                    case "s": 
-                        System.out.println(bst.size() + "\n");
-                        break;
-                    case "h": 
-                        System.out.println(bst.height() + "\n");
-                        break;
-                    case "q": 
-                        return;
-                    case "p": 
-                        print(bst, 0, "root", "0");
-                        System.out.println();
-                        break;
-                    case "f": 
-                        int num = s.nextInt();
-                        for (int i = 0; i < num; i++) {
-                            bst.insert(MyRandom.nextString(5,15));
-                        }
-                }
+            s = new Scanner(System.in);
+            while (true) {
+                process();
             }
-
         } else {
+            String in = "";
+            for (int i = 0; i < args.length; i++) {
+                in = in.concat(args[i] + " ");
+            }
+            System.out.println(in);
+            s = new Scanner(in);
+            while (s.hasNext()) {
+                process();
+            }
         }
+
     }
 }
 
@@ -247,7 +255,7 @@ class BST {
     //get       :  String  -->  BST  (a node actually)
     public BST get(String s) {
         Node n = root.getNode(s);
-        return new BST(n, n.getSize(1));
+        return (n == null) ? null : new BST(n, n.getSize(1));
     }
 
     //val       :          -->  String  (returns the key stored in the root)
