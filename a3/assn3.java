@@ -1,18 +1,32 @@
 import java.util.Random;
 import java.util.Scanner;
-import java.util.List;
 import java.util.ArrayList;
 
 class Assn3Main {
-    public static void print(BST bst, int height, String s) {
-        for (int i = 0; i < height; i++) {
-            System.out.printf(" ");
+    public static void print(BST bst, int height, String s, String lines) {
+        int i;
+        //System.out.println(lines);
+        for (i = 0; i < height; i++) {
+            if (lines.charAt(i) == '1') System.out.printf(" |");
+            else System.out.printf("  ");
         }
-        System.out.printf(height + " " + s + ": " + bst.val() + "\n");
+        if (height != 0) {
+            if (lines.charAt(i) == '1')
+                System.out.print(" ├");
+            else System.out.print(" └");
+            System.out.printf(height + " " + s + ": " + bst.val() + "\n");
+        } else {
+            System.out.printf(s + ": " + bst.val() + "\n");
+        }
         BST left = bst.getLeft();
         BST right = bst.getRight();
-        if (left != null) print(left, height+1, "left");
-        if (right != null) print(right, height+1, "right");
+        height++;
+        String temp = new String(lines);
+        if (left != null) {
+            if (right != null) print(left, height, "left", temp.concat("1"));
+            else print(left, height, "left", temp.concat("0"));
+        }
+        if (right != null) print(right, height, "right", lines.concat("0"));
     }
 
     //Allow:
@@ -22,8 +36,10 @@ class Assn3Main {
     //<argument>
     private static String getNext(Scanner s) {
         String res = s.findInLine("\\S.*");
-        System.out.println(res);
-        res = (res.length() == 0) ? s.next("\\S*") : res;
+        if (res == null || res.length() == 0) {
+            res = s.nextLine();
+            res = s.nextLine();
+        }
         return res;
     }
 
@@ -35,15 +51,16 @@ class Assn3Main {
                 switch (s.next("\\S*")) { 
                     case "new": 
                         bst = new BST();
+                        System.out.println();
                         break;
                     case "i":
                         System.out.println(bst.insert(getNext(s)) + "\n");
                         break;
                     case "r": 
-                        System.out.println(bst.remove(s.nextLine()) + "\n");
+                        System.out.println(bst.remove(getNext(s)) + "\n");
                         break;
                     case "c": 
-                        System.out.println(bst.contains(s.nextLine()) + "\n");
+                        System.out.println(bst.contains(getNext(s)) + "\n");
                         break;
                     case "g": 
                         break;
@@ -68,10 +85,12 @@ class Assn3Main {
                     case "q": 
                         return;
                     case "p": 
-                        print(bst, 0, "root");
+                        print(bst, 0, "root", "0");
                         System.out.println();
+                        break;
                     case "f": 
-                        for (int i = 0; i < 30; i++) {
+                        int num = s.nextInt();
+                        for (int i = 0; i < num; i++) {
                             bst.insert(MyRandom.nextString(5,15));
                         }
                 }
