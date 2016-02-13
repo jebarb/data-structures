@@ -1,13 +1,39 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.io.File;
+import java.util.InputMismatchException;
 
 class Assn3Main {
 
     private static Scanner s;
-   // = new Scanner(System.in);
+    // = new Scanner(System.in);
     private static BST bst = new BST();
 
-    public static void print(BST bst, int height, String s, String lines) {
+    private static void printHelp() {
+        System.out.println("Usage: [OPTION]... [OPTION] [ARGUMENT]...");
+        System.out.println("Options:");
+        System.out.println(
+                "  new       : make a new empty tree\n" +
+                "  i [STRING]: insert a string (get the value from the user)\n" +
+                "  I [FILE]  : fill the tree with strings from file, report true if no duplicates\n" +
+                "  r [STRING]: remove a node containing a string\n" +
+                "  R [STRING]: remove a nodes containing strings from file, report true if all strings are removed with no duplicates\n" +
+                "  c [STRING]: contains a string, report a boolean indicating success\n" +
+                "  C [FILE]  : contains all strings in a file, report boolean indicating success\n" +
+                "  g [STRING]: get a node that has a string as value and assign to BST\n" +
+                "  x         : findMax, returns a string\n" +
+                "  n         : findMin, returns a string\n" +
+                "  v         : val, gets the value stored in the root node\n" +
+                "  e         : empty\n" +
+                "  s         : size\n" +
+                "  h         : height\n" +
+                "  q         : quit the tester loop\n" +
+                "  p         : print the tree for inspection\n" +
+                "  f [INT]   : fill the tree with some amount of random string data\n" +
+                "  help      : print this message\n");
+    }
+
+    private static void print(BST bst, int height, String s, String lines) {
         int i;
         if (bst == null) {
             System.out.println("null");
@@ -37,7 +63,9 @@ class Assn3Main {
     }
 
     private static void process() {
-        switch (s.next()) {
+        String str = s.next("\\S*");
+        //System.out.println(s.next());
+        switch (str) {
             case "new":
                 bst = new BST();
                 System.out.println();
@@ -52,7 +80,8 @@ class Assn3Main {
                 System.out.println(bst.contains(s.next()) + "\n");
                 break;
             case "g": 
-                print(bst.get(s.next()), 0, "root", "0");
+                //print(bst.get(s.next()), 0, "root", "0");
+                bst = bst.get(s.next());
                 System.out.println();
                 break;
             case "x": 
@@ -79,17 +108,66 @@ class Assn3Main {
                 print(bst, 0, "root", "0");
                 System.out.println();
                 break;
-            case "f": 
-                int num = s.nextInt();
+            case "f":
+                int num = 0;
+                try {
+                    num = s.nextInt();
+                } catch (InputMismatchException ex) {
+                    System.out.println("Invalid argument");
+                }
                 for (int i = 0; i < num; i++) {
                     bst.insert(MyRandom.nextString(5,15));
                 }
+                break;
+            case "C":
+                try {
+                    File file_in = new File(s.next());
+                    Scanner file = new Scanner(file_in);
+                    boolean res = true;
+                    while (file.hasNext()) {
+                        if (!bst.contains(file.next())) res = false;
+                    }
+                    System.out.println(res + "\n");
+                } catch (Exception ex) {
+                    System.out.println("Invalid argument\n");
+                }
+                break;
+            case "I":
+                try {
+                    File file_in = new File(s.next());
+                    Scanner file = new Scanner(file_in);
+                    boolean res = true;
+                    while (file.hasNext()) {
+                        if (!bst.insert(file.next())) res = false;
+                    }
+                    System.out.println(res + "\n");
+                } catch (Exception ex) {
+                    System.out.println("Invalid argument\n");
+                }
+                break;
+            case "R":
+                try {
+                    File file_in = new File(s.next());
+                    Scanner file = new Scanner(file_in);
+                    boolean res = true;
+                    while (file.hasNext()) {
+                        if (!bst.remove(file.next())) res = false;
+                    }
+                    System.out.println(res + "\n");
+                } catch (Exception ex) {
+                    System.out.println("Invalid argument\n");
+                }
+                break;
+            case "help":
+                printHelp();
+                break;
         }
     }
 
     public static void main(String[] args) {
         if (args.length == 0) {
             s = new Scanner(System.in);
+            System.out.println("Type 'help' for usage");
             while (true) {
                 process();
             }
