@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 class Assn3Main {
 
     private static Scanner s;
-    private static BST bst = new BST();
+    private static SplayTree splay = new SplayTree();
 
     private static void printHelp() {
         System.out.println("Usage: [OPTION]... [OPTION] [ARGUMENT]...");
@@ -23,7 +23,7 @@ class Assn3Main {
                 "                  report true if all strings are removed with no duplicates\n" +
                 "  c [STRING]: contains a string, report a boolean indicating success\n" +
                 "  C [FILE]  : contains all strings in a file, report boolean indicating success\n" +
-                "  g [STRING]: get a node that has a string as value and assign to BST\n" +
+                "  g [STRING]: get a node that has a string as value and assign to SplayTree\n" +
                 "  x         : findMax, returns a string\n" +
                 "  n         : findMin, returns a string\n" +
                 "  v         : val, gets the value stored in the root node\n" +
@@ -39,50 +39,43 @@ class Assn3Main {
         String str = s.next("\\S*");
         switch (str) {
             case "new":
-                bst = new BST();
+                splay = new SplayTree();
                 System.out.println();
                 break;
             case "i":
-                System.out.println(bst.insert(s.next()) + "\n");
+                System.out.println(splay.insert(s.next()) + "\n");
                 break;
             case "r": 
-                System.out.println(bst.remove(s.next()) + "\n");
+                splay.remove(s.next());
+                System.out.println("\n");
                 break;
             case "c": 
-                System.out.println(bst.contains(s.next()) + "\n");
-                break;
-            case "g": 
-                //Uncomment first line to print subtree
-                //Uncomment second line to print string in node
-                //Uncomment third line to reassign bst to subtree
-                bst.get(s.next()).print();
-                //System.out.println(bst.get(s.next()).val());
-                //bst = bst.get(s.next());
-                System.out.println();
+                splay.contains(s.next());
+                System.out.println("\n");
                 break;
             case "x": 
-                System.out.println(bst.findMax() + "\n");
+                System.out.println(splay.findMax() + "\n");
                 break;
             case "n": 
-                System.out.println(bst.findMin() + "\n");
+                System.out.println(splay.findMin() + "\n");
                 break;
             case "v": 
-                System.out.println(bst.val() + "\n");
+                System.out.println(splay.val() + "\n");
                 break;
             case "e": 
-                System.out.println(bst.empty() + "\n");
+                System.out.println(splay.empty() + "\n");
                 break;
             case "s": 
-                System.out.println(bst.size() + "\n");
+                System.out.println(splay.size() + "\n");
                 break;
             case "h": 
-                System.out.println(bst.height() + "\n");
+                System.out.println(splay.height() + "\n");
                 break;
             case "q":
                 System.exit(0);
                 break;
             case "p":
-                bst.print();
+                splay.print();
                 System.out.println();
                 break;
             case "f":
@@ -93,15 +86,14 @@ class Assn3Main {
                     System.out.println("Invalid argument\n");
                 }
                 for (int i = 0; i < num; i++)
-                    bst.insert(MyRandom.nextString(5,15));
+                    splay.insert(MyRandom.nextString(5,15));
                 break;
             case "C":
                 try {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
                     boolean res = true;
-                    while (file.hasNext())
-                        if (!bst.contains(file.next())) res = false;
+                    while (file.hasNext()) splay.contains(file.next());
                     System.out.println(res + "\n");
                 } catch (FileNotFoundException ex) {
                     System.out.println("Invalid argument\n");
@@ -112,8 +104,7 @@ class Assn3Main {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
                     boolean res = true;
-                    while (file.hasNext())
-                        if (!bst.insert(file.next())) res = false;
+                    while (file.hasNext()) splay.insert(file.next());
                     System.out.println(res + "\n");
                 } catch (FileNotFoundException ex) {
                     System.out.println("Invalid argument\n");
@@ -124,8 +115,7 @@ class Assn3Main {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
                     boolean res = true;
-                    while (file.hasNext())
-                        if (!bst.remove(file.next())) res = false;
+                    while (file.hasNext()) splay.remove(file.next());
                     System.out.println(res + "\n");
                 } catch (FileNotFoundException ex) {
                     System.err.println("Invalid argument\n");
@@ -156,19 +146,40 @@ class Assn3Main {
     }
 }
 
-class BST {
+class SplayTree {
 
     private Node root;
     private int size;
 
     private class Node {
         private String data;
-        private Node left, right;
+        private Node left, right, parent;
 
-        private Node(String data, Node left, Node right) {
+        private Node(String data, Node left, Node right, Node parent) {
             this.data = data;
             this.left = left;
             this.right = right;
+            this.parent = parent;
+        }
+
+        private Node getParentLeft() {
+            if (parent != null && parent.right == this) return getParentLeft();
+            else return this;
+        }
+
+        private Node getParentRight() {
+            if (parent != null && parent.left == this) return getParentRight();
+            else return this;
+        }
+
+        private Node splay() {
+            Node n = getParentLeft();
+            if (n != this) {
+            n.parent = this;
+            n.right = this.right;
+            this.left = left;
+            }
+            return this;
         }
 
         private Node getNode(String s) {
@@ -183,53 +194,40 @@ class BST {
             } else return null;
         }
 
-        private boolean insert(String s) {
-            if (data == null) data = s;
-            else if (data.compareTo(s) > 0) {
-                if (left == null) left = new Node(s, null, null);
+        private Node insert(String s) {
+            if (data == null) {
+                data = s;
+                return this;
+            } else if (data.compareTo(s) > 0) {
+                if (left == null) { 
+                    left = new Node(s, null, null, this);
+                    return left.splay();
+                }
                 else return left.insert(s);
             } else if (data.compareTo(s) < 0) {
-                if (right == null) right = new Node(s, null, null);
+                if (right == null) {
+                    right = new Node(s, null, null, this);
+                    return right.splay();
+                }
                 else return right.insert(s);
-            } else return false;
-            return true;
+            } else return splay();
         }
 
-        private boolean remove(String s) {
-            if (data == null) return false;
-            if (data.equals(s)) {
-                if (left != null) {
-                    data = left.findMax().data;
-                    left.remove(data);
-                    if (left.data == null) left = null;
-                } else if (right != null) {
-                    data = right.findMin().data;
-                    right.remove(data);
-                    if (right.data == null) right = null;
-                } else data = null;
-                return true;
-            } else if (data.compareTo(s) > 0) {
-                if (left == null) return false;
-                if (!left.remove(s)) return false;
-                if (left.data == null) left = null;
-                return true;
-            } else if (data.compareTo(s) < 0) {
-                if (right == null) return false;
-                if (!right.remove(s)) return false;
-                if (right.data == null) right = null;
-                return true;
-            }
-            return false;
+        private Node remove(String s) {
+            if (getNode(s).data.equals(s)) {
+                right.left = left.findMax();
+                return right;
+            } else return this;
         }
 
         private Node findMin() {
             if (left != null) return left.findMin();
-            else return this;
+            return splay();
         }
 
         private Node findMax() {
             if (right != null) return right.findMax();
-            else return this;
+            return splay();
         }
 
         private int getHeight() {
@@ -273,33 +271,29 @@ class BST {
         }
     }
 
-    public BST() {
-        this.root = new Node(null, null, null);
+    public SplayTree() {
+        this.root = new Node(null, null, null, null);
         this.size = 0;
     }
 
-    public BST(String s) {
+    public SplayTree(String s) {
         this();
         insert(s);
     }
 
-    public BST(Node root, int size) {
+    public SplayTree(Node root, int size) {
         this.root = root;
         this.size = size;
     }
 
-    public boolean insert(String s) {
-        if (root.insert(s)) {
-            size++;
-            return true;
-        } else return false;
+    public SplayTree insert(String s) {
+        root = root.insert(s);
+        return this;
     }
 
-    public boolean remove(String s) {
-        if (root.remove(s)) {
-            size--;
-            return true;
-        } else return false;
+    public SplayTree remove(String s) {
+        root = root.insert(s);
+        return this;
     }
 
     public String findMin() {
@@ -311,13 +305,9 @@ class BST {
     }
 
     public boolean contains(String s) {
-        return root.getNode(s) != null;
+        return (root.getNode(s).data.equals(s)) ? true : false;
     }
 
-    public BST get(String s) {
-        Node n = root.getNode(s);
-        return (n == null) ? null : new BST(n, n.getSize());
-    }
 
     public String val() {
         return root.data;
@@ -328,7 +318,7 @@ class BST {
     }
 
     public int size() {
-        return size;
+        return root.getSize();
     }
 
     public int height() {

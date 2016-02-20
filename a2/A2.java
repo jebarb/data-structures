@@ -20,19 +20,14 @@ class ListImpArray implements ListImp {
 
     @Override
     public void ins(String s, int n) {
-        if (str[n + headIndex] != null) {
-            ins_no_idx(str[n + headIndex], n + 1);
-        }
+        if (str[n + headIndex] != null) ins_no_idx(str[n + headIndex], n + 1);
         str[n + headIndex] = s;
         tailIndex++;
     }
 
     private void ins_no_idx(String s, int n) {
-        if (str[n] != null) {
-            ins_no_idx(str[n], n + 1);
-        } else {
-            str[n] = s;
-        }
+        if (str[n] != null) ins_no_idx(str[n], n + 1);
+        else str[n] = s;
     }
 
     @Override
@@ -40,9 +35,8 @@ class ListImpArray implements ListImp {
         if (str[n + headIndex] != null) {
             str[n + headIndex] = null;
             headIndex++;
-            if (n != 0 || n != size() - 1) {
+            if (n != 0 || n != size() - 1)
                 ins_no_idx(get(headIndex-1), headIndex-1);
-            }
         }
     }
 
@@ -80,19 +74,13 @@ class ListImpLinks implements ListImp {
         }
 
         private Node getNodeHead(int n) {
-            if (n > 0) {
-                return next.getNodeHead(--n);
-            } else {
-                return this;
-            }
+            if (n > 0) return next.getNodeHead(--n);
+            else return this;
         }
 
         private Node getNodeTail(int n) {
-            if (n > 0) {
-                return prev.getNodeTail(--n);
-            } else {
-                return this;
-            }
+            if (n > 0) return prev.getNodeTail(--n);
+            else return this;
         }
     }
 
@@ -105,28 +93,18 @@ class ListImpLinks implements ListImp {
     @Override
     public void ins(String s, int i) {
         if (head == null) {
-            if (i != 0) {
-                return;
-            }
+            if (i != 0) return;
             head = tail = new Node(s, null, null);
         } else if (i == size) {
             tail = tail.next = new Node(s, null, tail);
         } else {
             Node n = getNode(i);
-            if (n == null) {
-                return;
-            }
+            if (n == null) return;
             Node p = new Node(s, n, n.prev);
-            if (n.prev != null) {
-                n.prev.next = p;
-            } else {
-                head = p;
-            }
-            if (n.next != null) {
-                n.next.prev = p;
-            } else {
-                tail = n;
-            }
+            if (n.prev != null) n.prev.next = p;
+            else head = p;
+            if (n.next != null) n.next.prev = p;
+            else tail = n;
         }
         size++;
     }
@@ -134,40 +112,25 @@ class ListImpLinks implements ListImp {
     @Override
     public void rem(int i) {
         Node n = getNode(i);
-        if (n == null) {
-            return;
-        }
-        if (n.prev != null) {
-            n.prev.next = n.next;
-        } else {
-            head = n.next;
-        }
-        if (n.next != null) {
-            n.next.prev = n.prev;
-        } else {
-            tail = n.prev;
-        }
+        if (n == null) return;
+        if (n.prev != null) n.prev.next = n.next;
+        else head = n.next;
+        if (n.next != null) n.next.prev = n.prev;
+        else tail = n.prev;
         size--;
     }
 
     @Override
     public String get(int i) {
         Node n = getNode(i);
-        if (n == null) {
-            return null;
-        } else {
-            return n.data;
-        }
+        if (n == null) return null;
+        else return n.data;
     }
 
     private Node getNode(int i) {
-        if (head == null || i >= size || i < 0) {
-            return null;
-        } else if (i <= size / 2) {
-            return head.getNodeHead(i);
-        } else {
-            return tail.getNodeTail(size - 1);
-        }
+        if (head == null || i >= size || i < 0) return null;
+        else if (i <= size / 2) return head.getNodeHead(i);
+        else return tail.getNodeTail(size - 1);
     }
 
     @Override
@@ -186,11 +149,8 @@ class Queue {
     private ListImp list;
 
     public Queue(String s) {
-        if (s.equals("links")) {
-            list = new ListImpLinks();
-        } else if (s.equals("array")) {
-            list = new ListImpArray();
-        }
+        if (s.equals("links")) list = new ListImpLinks();
+        else if (s.equals("array")) list = new ListImpArray();
     }
 
     public Queue() {
@@ -203,14 +163,6 @@ class Queue {
 
     public void deq() {
         list.rem(0);
-    }
-
-    public void insmiddle() {
-        list.ins("TEST INSERT MIDDLE", size() / 2);
-    }
-
-    public void insfront() {
-        list.ins("TEST INSERT FRONT", 0);
     }
 
     public String front() {
