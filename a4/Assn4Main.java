@@ -16,22 +16,20 @@ class Assn4Main {
                 "  help      : print this message\n" +
                 "  new       : make a new empty tree\n" +
                 "  i [STRING]: insert a string\n" +
-                "  I [FILE]  : fill the tree with strings from file,\n" + 
-                "                  report true if no duplicates\n" +
+                "  I [FILE]  : fill the tree with strings from file\n" +
                 "  r [STRING]: remove a node containing a string\n" +
-                "  R [STRING]: remove a nodes containing strings from file,\n" + 
-                "                  report true if all strings are removed with no duplicates\n" +
-                "  c [STRING]: contains a string, report a boolean indicating success\n" +
-                "  C [FILE]  : contains all strings in a file, report boolean indicating success\n" +
-                "  x         : findMax, returns a string\n" +
-                "  n         : findMin, returns a string\n" +
-                "  v         : val, gets the value stored in the root node\n" +
+                "  R [STRING]: remove nodes containing strings from file\n" + 
+                "  c [STRING]: contains a string\n" +
+                "  C [FILE]  : contains all strings in a file\n" +
+                "  f [INT]   : fill the tree with random strings\n" +
+                "  x         : finds max string\n" +
+                "  n         : finds min string\n" +
+                "  v         : gets the value stored in the root node\n" +
                 "  e         : empty\n" +
                 "  s         : size\n" +
                 "  h         : height\n" +
                 "  q         : quit the tester loop\n" +
-                "  p         : print the tree for inspection\n" +
-                "  f [INT]   : fill the tree with some amount of random string key\n");
+                "  p         : print the tree for inspection\n");
     }
 
     private static void process() {
@@ -92,7 +90,8 @@ class Assn4Main {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
                     boolean res = true;
-                    while (file.hasNext()) splay.contains(file.next());
+                    while (file.hasNext()) 
+                        if (!splay.contains(file.next())) res = false;
                     System.out.println(res + "\n");
                 } catch (FileNotFoundException ex) {
                     System.out.println("Invalid argument\n");
@@ -102,9 +101,8 @@ class Assn4Main {
                 try {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
-                    boolean res = true;
                     while (file.hasNext()) splay.insert(file.next());
-                    System.out.println(res + "\n");
+                    System.out.println();
                 } catch (FileNotFoundException ex) {
                     System.out.println("Invalid argument\n");
                 }
@@ -113,9 +111,8 @@ class Assn4Main {
                 try {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
-                    boolean res = true;
                     while (file.hasNext()) splay.remove(file.next());
-                    System.out.println(res + "\n");
+                    System.out.println();
                 } catch (FileNotFoundException ex) {
                     System.err.println("Invalid argument\n");
                 }
@@ -159,57 +156,43 @@ class SplayTree {
             this.left = left;
             this.right = right;
             this.parent = parent;
+            size++;
         }
 
         private Node getNode(String s) {
-            if (key.equals("")) return splay();
             if (key.equals(s)) return splay();
             if (key.compareTo(s) > 0) {
-                if (left == null) return splay();
-                else return left.getNode(s);
+                return (left == null) ? splay() : left.getNode(s);
             } else if (key.compareTo(s) < 0) {
-                if (right == null) return splay();
-                else return right.getNode(s);
+                return (right == null) ? splay() : right.getNode(s);
             } else return splay();
         }
 
         private Node insert(String s) {
-            if (key.equals("")) {
-                key = s;
-                size++;
-                return splay();
-            } else if (key.compareTo(s) > 0) {
+            if (key.compareTo(s) > 0) {
                 if (left == null) { 
                     left = new Node(s, null, null, this);
-                    size++;
                     return left.splay();
-                }
-                else return left.insert(s);
+                } else return left.insert(s);
             } else if (key.compareTo(s) < 0) {
                 if (right == null) {
                     right = new Node(s, null, null, this);
-                    size++;
                     return right.splay();
-                }
-                else return right.insert(s);
-            } else {
-                return splay();
-            }
+                } else return right.insert(s);
+            } else return splay();
         }
 
         private Node findMin() {
-            Node res = (left != null) ? left.findMin() : this;
-            return res.splay();
+            return (left != null) ? left.findMin() : splay();
         }
 
         private Node findMax() {
-            Node res = (right != null) ? right.findMax() : this;
-            return res.splay();
+            return (right != null) ? right.findMax() : splay();
         }
 
         private int getHeight() {
-            int l = 0;
-            int r = 0;
+            int l, r;
+            l = r = 0;
             if (left != null) l += left.getHeight()+1;
             if (right != null) r += right.getHeight()+1;
             return (l > r) ? l : r;
@@ -217,7 +200,6 @@ class SplayTree {
 
         private int getSize() {
             int i = 1;
-            if (key.equals("")) return 0;
             if (left != null) i += left.getSize();
             if (right != null) i += right.getSize();
             return i;
@@ -259,11 +241,11 @@ class SplayTree {
             } else if (parent.left == this && parent.parent.left == parent) {
                 parent.parent.rotateRight();
                 parent.rotateRight();
-            } else if (parent.right == this && parent.parent.right == parent ) {
-                parent.parent.rotateLeft();
-                parent.rotateLeft();
             } else if (parent.left == this && parent.parent.right == parent ) {
                 parent.rotateRight();
+                parent.rotateLeft();
+            } else if (parent.right == this && parent.parent.right == parent ) {
+                parent.parent.rotateLeft();
                 parent.rotateLeft();
             } else {
                 parent.rotateLeft();
@@ -273,8 +255,7 @@ class SplayTree {
         }
 
         private void print(int depth, String side, String lines) {
-            if (key.equals("")) System.out.println("null");
-            else if (depth == 0) System.out.printf(side + ": " + key + "\n");
+            if (depth == 0) System.out.printf(side + ": " + key + "\n");
             else if (lines.charAt(lines.length()-1) == '|') 
                 System.out.printf(lines.substring(0, lines.length()-2) + 
                         " ├" + depth + " " + side + ": " + key + "\n");
@@ -287,56 +268,50 @@ class SplayTree {
     }
 
     public SplayTree() {
-        this.root = new Node("", null, null, null);
         this.size = 0;
     }
 
-    public SplayTree(String s) {
-        this();
-        root = root.insert(s);
-
-    }
-
-    public SplayTree(Node root, int size) {
-        this.root = root;
-        this.size = size;
-    }
-
     public SplayTree insert(String s) {
-        root = root.insert(s);
+        if (root == null) root = new Node(s, null, null, null);
+        else root = root.insert(s);
         return this;
     }
 
     public SplayTree remove(String s) {
-        contains(s);
-        if (!val().equals(s)) return this;
-        size--;
-        if (root.left == null) root.key = "";
+        if (root == null || !contains(s)) return this;
+        if (root.left == null) root = root.right;
         else {
             Node r = root.right;
             root = root.left.findMax();
             root.right = r;
+            if (root.right != null) root.right.parent = root;
         }
+        if (root != null) root.parent = null;
+        size--;
         return this;
     }
 
     public String findMin() {
+        if (root == null) return null;
         root = root.findMin();
         return val();
     }
 
     public String findMax() {
+        if (root == null) return null;
         root = root.findMax();
         return val();
     }
 
     public boolean contains(String s) {
+        if (root == null) return false;
         root = root.getNode(s);
         return (val().equals(s)) ? true : false;
     }
 
 
     public String val() {
+        if (root == null) return null;
         return root.key;
     }
 
@@ -349,11 +324,13 @@ class SplayTree {
     }
 
     public int height() {
+        if (root == null) return 0;
         return root.getHeight();
     }
 
     public void print() {
-        root.print(0, "root", "  ");
+        if (root == null) System.out.println("null");
+        else root.print(0, "root", "  ");
     }
 
 }
