@@ -311,9 +311,12 @@ class SplayTree {
         contains(s);
         if (!val().equals(s)) return this;
         size--;
-        Node r = root.right;
-        root = root.left.findMax();
-        root.right = r;
+        if (root.left == null) root.key = "";
+        else {
+            Node r = root.right;
+            root = root.left.findMax();
+            root.right = r;
+        }
         return this;
     }
 
