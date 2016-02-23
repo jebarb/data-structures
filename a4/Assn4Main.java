@@ -18,7 +18,7 @@ class Assn4Main {
                 "  i [STRING]: insert a string\n" +
                 "  I [FILE]  : fill the tree with strings from file\n" +
                 "  r [STRING]: remove a node containing a string\n" +
-                "  R [STRING]: remove nodes containing strings from file\n" + 
+                "  R [FILE]  : remove nodes containing strings from file\n" + 
                 "  c [STRING]: contains a string\n" +
                 "  C [FILE]  : contains all strings in a file\n" +
                 "  f [INT]   : fill the tree with random strings\n" +
@@ -29,7 +29,7 @@ class Assn4Main {
                 "  s         : size\n" +
                 "  h         : height\n" +
                 "  q         : quit the tester loop\n" +
-                "  p         : print the tree for inspection\n");
+                "  p         : print the tree for inspection");
     }
 
     private static void process() {
@@ -37,53 +37,49 @@ class Assn4Main {
         switch (str) {
             case "new":
                 splay = new SplayTree();
-                System.out.println();
                 break;
             case "i":
                 splay.insert(s.next());
-                System.out.println();
                 break;
-            case "r": 
+            case "r":
                 splay.remove(s.next());
-                System.out.println();
                 break;
-            case "c": 
-                System.out.println(splay.contains(s.next()) + "\n");
+            case "c":
+                System.out.println(splay.contains(s.next()));
                 break;
-            case "x": 
-                System.out.println(splay.findMax() + "\n");
+            case "x":
+                System.out.println(splay.findMax());
                 break;
-            case "n": 
-                System.out.println(splay.findMin() + "\n");
+            case "n":
+                System.out.println(splay.findMin());
                 break;
-            case "v": 
-                System.out.println(splay.val() + "\n");
+            case "v":
+                System.out.println(splay.val());
                 break;
-            case "e": 
-                System.out.println(splay.empty() + "\n");
+            case "e":
+                System.out.println(splay.empty());
                 break;
-            case "s": 
-                System.out.println(splay.size() + "\n");
+            case "s":
+                System.out.println(splay.size());
                 break;
-            case "h": 
-                System.out.println(splay.height() + "\n");
+            case "h":
+                System.out.println(splay.height());
                 break;
             case "q":
                 System.exit(0);
                 break;
             case "p":
                 splay.print();
-                System.out.println();
                 break;
             case "f":
                 int num = 0;
                 try {
                     num = s.nextInt();
                 } catch (InputMismatchException ex) {
-                    System.out.println("Invalid argument\n");
+                    System.err.println("Invalid argument");
                 }
                 for (int i = 0; i < num; i++)
-                    splay.insert(MyRandom.nextString(5,15));
+                    splay.insert(MyRandom.nextString());
                 break;
             case "C":
                 try {
@@ -92,9 +88,9 @@ class Assn4Main {
                     boolean res = true;
                     while (file.hasNext()) 
                         if (!splay.contains(file.next())) res = false;
-                    System.out.println(res + "\n");
+                    System.out.println(res);
                 } catch (FileNotFoundException ex) {
-                    System.out.println("Invalid argument\n");
+                    System.err.println("Invalid argument");
                 }
                 break;
             case "I":
@@ -102,9 +98,8 @@ class Assn4Main {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
                     while (file.hasNext()) splay.insert(file.next());
-                    System.out.println();
                 } catch (FileNotFoundException ex) {
-                    System.out.println("Invalid argument\n");
+                    System.err.println("Invalid argument");
                 }
                 break;
             case "R":
@@ -114,7 +109,7 @@ class Assn4Main {
                     while (file.hasNext()) splay.remove(file.next());
                     System.out.println();
                 } catch (FileNotFoundException ex) {
-                    System.err.println("Invalid argument\n");
+                    System.err.println("Invalid argument");
                 }
                 break;
             case "help":
@@ -133,10 +128,8 @@ class Assn4Main {
             String in = "";
             for (int i = 0; i < args.length; i++)
                 in = in.concat(args[i] + " ");
-            System.out.println(in);
             s = new Scanner(in);
-            while (s.hasNext())
-                process();
+            while (s.hasNext()) process();
         }
 
     }
@@ -160,25 +153,18 @@ class SplayTree {
         }
 
         private Node getNode(String s) {
-            if (key.equals(s)) return splay();
-            if (key.compareTo(s) > 0) {
-                return (left == null) ? splay() : left.getNode(s);
-            } else if (key.compareTo(s) < 0) {
-                return (right == null) ? splay() : right.getNode(s);
-            } else return splay();
+            if (s.compareTo(key) < 0 && left != null) return left.getNode(s);
+            if (s.compareTo(key) > 0 && right != null) return right.getNode(s);
+            return splay();
         }
 
         private Node insert(String s) {
-            if (key.compareTo(s) > 0) {
-                if (left == null) { 
-                    left = new Node(s, null, null, this);
-                    return left.splay();
-                } else return left.insert(s);
-            } else if (key.compareTo(s) < 0) {
-                if (right == null) {
-                    right = new Node(s, null, null, this);
-                    return right.splay();
-                } else return right.insert(s);
+            if (s.compareTo(key) < 0) {
+                if (left == null) left = new Node(s, null, null, this);
+                return left.insert(s);
+            } else if (s.compareTo(key) > 0) {
+                if (right == null) right = new Node(s, null, null, this);
+                return right.insert(s);
             } else return splay();
         }
 
@@ -191,10 +177,9 @@ class SplayTree {
         }
 
         private int getHeight() {
-            int l, r;
-            l = r = 0;
-            if (left != null) l += left.getHeight()+1;
-            if (right != null) r += right.getHeight()+1;
+            int l = 0, r = 0;
+            if (left != null) l = left.getHeight()+1;
+            if (right != null) r = right.getHeight()+1;
             return (l > r) ? l : r;
         }
 
@@ -205,51 +190,44 @@ class SplayTree {
             return i;
         }
 
-        private Node rotateRight() {
-            Node tmp = left;
-            if (tmp != null) {
-                left = tmp.right;
-                if (tmp.right != null) tmp.right.parent = this;
-                tmp.parent = parent;
-            }
-            if (parent != null && this == parent.left ) parent.left = tmp;
-            else if (parent != null) parent.right = tmp;
-            if (tmp != null) tmp.right = this;
-            parent = tmp;
-            return this;
+        private void rotateRight() {
+            Node tmp = parent;
+            tmp.left = right;
+            if (tmp.left != null) tmp.left.parent = tmp;
+            parent = tmp.parent;
+            if (parent != null && parent.right == tmp) parent.right = this;
+            else if (parent != null) parent.left = this;
+            tmp.parent = this;
+            right = tmp;
         }
 
-        private Node rotateLeft() {
-            Node tmp = right;
-            if(tmp != null) {
-                right = tmp.left;
-                if(tmp.left != null) tmp.left.parent = this;
-                tmp.parent = parent;
-            }
-            if (parent != null && this == parent.left ) parent.left = tmp;
-            else if (parent != null) parent.right = tmp;
-            if (tmp != null) tmp.left = this;
-            parent = tmp;
-            return this;
+        private void rotateLeft() {
+            Node tmp = parent;
+            tmp.right = left;
+            if (tmp.right != null) tmp.right.parent = tmp;
+            parent = tmp.parent;
+            if (tmp.parent != null && parent.right == tmp) parent.right = this;
+            else if (tmp.parent != null) parent.left = this;
+            tmp.parent = this;
+            left = tmp;
         }
 
         private Node splay() {
             if (parent == null) return this;
-            else if (parent.parent == null) {
-                if (parent.left == this) parent.rotateRight();
-                else parent.rotateLeft();
-            } else if (parent.left == this && parent.parent.left == parent) {
-                parent.parent.rotateRight();
+            else if (parent.parent == null && parent.left == this) rotateRight();
+            else if (parent.parent == null && parent.right == this) rotateLeft();
+            else if (parent.left == this && parent.parent.left == parent) {
                 parent.rotateRight();
-            } else if (parent.left == this && parent.parent.right == parent ) {
-                parent.rotateRight();
+                rotateRight();
+            } else if (parent.left == this && parent.parent.right == parent) {
+                rotateRight();
+                rotateLeft();
+            } else if (parent.right == this && parent.parent.right == parent) {
                 parent.rotateLeft();
-            } else if (parent.right == this && parent.parent.right == parent ) {
-                parent.parent.rotateLeft();
-                parent.rotateLeft();
-            } else {
-                parent.rotateLeft();
-                parent.rotateRight();
+                rotateLeft();
+            } else if (parent.right == this && parent.parent.left == parent) {
+                rotateLeft();
+                rotateRight();
             }
             return splay();
         }
@@ -271,15 +249,13 @@ class SplayTree {
         this.size = 0;
     }
 
-    public SplayTree insert(String s) {
-        if (root == null) root = new Node(s, null, null, null);
-        else root = root.insert(s);
-        return this;
+    public void insert(String s) {
+        root = (root == null) ? new Node(s, null, null, null) : root.insert(s);
     }
 
-    public SplayTree remove(String s) {
-        if (root == null || !contains(s)) return this;
-        if (root.left == null) root = root.right;
+    public void remove(String s) {
+        if (root == null || !contains(s)) return;
+        else if (root.left == null) root = root.right;
         else {
             Node r = root.right;
             root = root.left.findMax();
@@ -288,35 +264,29 @@ class SplayTree {
         }
         if (root != null) root.parent = null;
         size--;
-        return this;
     }
 
     public String findMin() {
-        if (root == null) return null;
-        root = root.findMin();
+        if (root != null) root = root.findMin();
         return val();
     }
 
     public String findMax() {
-        if (root == null) return null;
-        root = root.findMax();
+        if (root != null) root = root.findMax();
         return val();
     }
 
     public boolean contains(String s) {
-        if (root == null) return false;
-        root = root.getNode(s);
-        return (val().equals(s)) ? true : false;
+        if (root != null) root = root.getNode(s);
+        return (val().equals(s));
     }
 
-
     public String val() {
-        if (root == null) return null;
-        return root.key;
+        return (root == null) ? null : root.key;
     }
 
     public boolean empty() {
-        return size() == 0;
+        return (size() == 0);
     }
 
     public int size() {
@@ -324,15 +294,13 @@ class SplayTree {
     }
 
     public int height() {
-        if (root == null) return 0;
-        return root.getHeight();
+        return (root == null) ? 0 : root.getHeight();
     }
 
     public void print() {
         if (root == null) System.out.println("null");
-        else root.print(0, "root", "  ");
+        else root.print(0, "root", "");
     }
-
 }
 
 class MyRandom {
@@ -359,5 +327,4 @@ class MyRandom {
     public static String nextString() {
         return nextString(5, 25);
     }
-
 }
