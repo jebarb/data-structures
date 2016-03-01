@@ -142,38 +142,40 @@ class SplayTree {
 
     private class Node {
         private String key;
-        private Node left, right, parent;
+        private Node left, right, par;
 
-        private Node(String key, Node left, Node right, Node parent) {
+        private Node(String key, Node left, Node right, Node par) {
             this.key = key;
             this.left = left;
             this.right = right;
-            this.parent = parent;
+            this.par = par;
             size++;
         }
 
         private Node getNode(String s) {
-            if (s.compareTo(key) < 0 && left != null) return left.getNode(s);
-            if (s.compareTo(key) > 0 && right != null) return right.getNode(s);
+            if (s.compareTo(key) < 0 && left != null) 
+                return left.getNode(s).splay();
+            if (s.compareTo(key) > 0 && right != null) 
+                return right.getNode(s).splay();
             return splay();
         }
 
         private Node insert(String s) {
             if (s.compareTo(key) < 0) {
                 if (left == null) left = new Node(s, null, null, this);
-                return left.insert(s);
+                return left.insert(s).splay();
             } else if (s.compareTo(key) > 0) {
                 if (right == null) right = new Node(s, null, null, this);
-                return right.insert(s);
+                return right.insert(s).splay();
             } else return splay();
         }
 
         private Node findMin() {
-            return (left != null) ? left.findMin() : splay();
+            return (left != null) ? left.findMin().splay() : splay();
         }
 
         private Node findMax() {
-            return (right != null) ? right.findMax() : splay();
+            return (right != null) ? right.findMax().splay() : splay();
         }
 
         private int getHeight() {
@@ -191,45 +193,45 @@ class SplayTree {
         }
 
         private void rotateRight() {
-            Node tmp = parent;
+            Node tmp = par;
             tmp.left = right;
-            if (tmp.left != null) tmp.left.parent = tmp;
-            parent = tmp.parent;
-            if (parent != null && parent.right == tmp) parent.right = this;
-            else if (parent != null) parent.left = this;
-            tmp.parent = this;
+            if (tmp.left != null) tmp.left.par = tmp;
+            par = tmp.par;
+            if (par != null && par.right == tmp) par.right = this;
+            else if (par != null) par.left = this;
+            tmp.par = this;
             right = tmp;
         }
 
         private void rotateLeft() {
-            Node tmp = parent;
+            Node tmp = par;
             tmp.right = left;
-            if (tmp.right != null) tmp.right.parent = tmp;
-            parent = tmp.parent;
-            if (tmp.parent != null && parent.right == tmp) parent.right = this;
-            else if (tmp.parent != null) parent.left = this;
-            tmp.parent = this;
+            if (tmp.right != null) tmp.right.par = tmp;
+            par = tmp.par;
+            if (tmp.par != null && par.right == tmp) par.right = this;
+            else if (tmp.par != null) par.left = this;
+            tmp.par = this;
             left = tmp;
         }
 
         private Node splay() {
-            if (parent == null) return this;
-            else if (parent.parent == null && parent.left == this) rotateRight();
-            else if (parent.parent == null && parent.right == this) rotateLeft();
-            else if (parent.left == this && parent.parent.left == parent) {
-                parent.rotateRight();
+            if (par == null) return this;
+            else if (par.par == null && par.left == this) rotateRight();
+            else if (par.par == null && par.right == this) rotateLeft();
+            else if (par.left == this && par.par.left == par) {
+                par.rotateRight();
                 rotateRight();
-            } else if (parent.left == this && parent.parent.right == parent) {
+            } else if (par.left == this && par.par.right == par) {
                 rotateRight();
                 rotateLeft();
-            } else if (parent.right == this && parent.parent.right == parent) {
-                parent.rotateLeft();
+            } else if (par.right == this && par.par.right == par) {
+                par.rotateLeft();
                 rotateLeft();
-            } else if (parent.right == this && parent.parent.left == parent) {
+            } else if (par.right == this && par.par.left == par) {
                 rotateLeft();
                 rotateRight();
             }
-            return splay();
+            return this;
         }
 
         private void print(int depth, String side, String lines) {
@@ -258,11 +260,11 @@ class SplayTree {
         else if (root.left == null) root = root.right;
         else {
             Node r = root.right;
-            root = root.left.findMax();
+            root = (r != null) ? root.left.findMax() : root.left;
             root.right = r;
-            if (root.right != null) root.right.parent = root;
+            if (root.right != null) root.right.par = root;
         }
-        if (root != null) root.parent = null;
+        if (root != null) root.par = null;
         size--;
     }
 
@@ -278,7 +280,7 @@ class SplayTree {
 
     public boolean contains(String s) {
         if (root != null) root = root.getNode(s);
-        return (val().equals(s));
+        return (val() == null) ? false : val().equals(s);
     }
 
     public String val() {
