@@ -1,8 +1,6 @@
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class AssnBHeap {
@@ -19,8 +17,9 @@ public class AssnBHeap {
                         "  i [STRING] [PRIORITY] : insert a string with priority\n" +
                         "  d                     : remove min\n" +
                         "  m                     : print min\n" +
-                        "  b [FILE]              : Build tree from file\n" +
+                        "  b [FILE]              : Build heap from file\n" +
                         "  f [INT]               : fill the tree with random strings and priorities\n" +
+                        "  e                     : empty tree, validate items remove == initial size\n" +
                         "  s                     : size\n" +
                         "  h                     : height\n" +
                         "  q                     : quit the tester loop\n" +
@@ -38,7 +37,7 @@ public class AssnBHeap {
                 int pri = 0;
                 try {
                     pri = s.nextInt();
-                } catch (InputMismatchException ex) {
+                } catch (Exception ex) {
                     System.err.println("Invalid argument");
                 }
                 heap.insert(new EntryPair(data, pri));
@@ -47,13 +46,22 @@ public class AssnBHeap {
                 heap.delMin();
                 break;
             case "m":
-                System.out.println(heap.getMin());
+                System.out.println(heap.getMin().getValue());
+                break;
+            case "e":
+                int i = 0;
+                int init_size = heap.size();
+                while (heap.size() != 0) {
+                    heap.delMin();
+                    i++;
+                }
+                System.out.println(i == init_size);
                 break;
             case "b":
                 try {
                     File file_in = new File(s.next());
                     Scanner file = new Scanner(file_in);
-                    List<EntryPair> e = new ArrayList<EntryPair>();
+                    List<EntryPair> e = new ArrayList<>();
                     while (file.hasNext()) {
                         String data_b = s.next();
                         int pri_b = s.nextInt();
@@ -82,10 +90,10 @@ public class AssnBHeap {
                 int num = 0;
                 try {
                     num = s.nextInt();
-                } catch (InputMismatchException ex) {
+                } catch (Exception ex) {
                     System.err.println("Invalid argument");
                 }
-                for (int i = 0; i < num; i++)
+                while (num-- > 0)
                     heap.insert(new EntryPair(MyRandom.nextString(), MyRandom.rand(1, 100)));
                 break;
             case "help":
@@ -102,11 +110,10 @@ public class AssnBHeap {
                 process();
         } else {
             String in = "";
-            for (int i = 0; i < args.length; i++)
-                in = in.concat(args[i] + " ");
+            for (String arg : args)
+                in = in.concat(arg + " ");
             s = new Scanner(in);
             while (s.hasNext()) process();
         }
-
     }
 }

@@ -1,25 +1,35 @@
+import java.util.Arrays;
+
 public class MinBinHeap implements HeapInterface {
 
     private int size;
-    // in here go all your data and methods for the heap
-
+    private EntryPair[] array;
+    private static final int INIT = 10000;
     public MinBinHeap() {
-        // default constructor
-        // explicitly include this
-        // we need to have the default constructor
-        // if you then write others, this one will still be there
+        this.size = 0;
+        this.array = new EntryPair[INIT];
+        array[0] = new EntryPair(null, -100000);
     }
 
     public void insert(EntryPair entry) {
-
+        if (size == (array.length-1)/2) array = Arrays.copyOf(array, 2 * array.length);
+        array[size+1] = entry;
+        bubbleUp(size+1);
+        size++;
     }
 
     public void delMin() {
-
+        if (array[1] != null) {
+            if (array[2] == null) array[1] = null;
+            array[1] = array[size];
+            array[size] = null;
+            if (array[2] != null) bubbleDown(1);
+            size--;
+        }
     }
 
     public EntryPair getMin() {
-        return null;
+        return array[1];
     }
 
     public int size() {
@@ -27,11 +37,59 @@ public class MinBinHeap implements HeapInterface {
     }
 
     public void build(EntryPair[] entries) {
+        array = (entries.length > INIT) ? new EntryPair[entries.length * 2] : new EntryPair[INIT];
+        for (EntryPair e: entries) insert(e);
+    }
 
+    private void print(int idx, int depth, String side, String lines) {
+        if (depth == 0) System.out.printf(side + ": " + array[idx].getPriority() + ": " + array[idx].getValue() + "\n");
+        else if (lines.charAt(lines.length()-1) == '|') System.out.printf(lines.substring(0, lines.length()-2) + " ├" +
+                depth + " " + side + ": " + array[idx].getPriority() + ": " + array[idx].getValue() + "\n");
+        else System.out.printf(lines.substring(0, lines.length()-2) + " └" + depth + " " + side + ": " +
+                    array[idx].getPriority() + ": " + array[idx].getValue() + "\n");
+        if (array[getLeft(idx)] != null && array[getLeft(idx)] != null) print(getLeft(idx), depth+1, "left", lines + " |");
+        else if (array[getLeft(idx)] != null) print(getLeft(idx), depth+1, "left", lines + "  ");
+        if (array[getRight(idx)] != null) print(getRight(idx), depth+1, "right", lines + "  ");
     }
 
     public void print() {
-
+        if (array[1] == null) System.out.println("null");
+        else print(1, 0, "root", "");
     }
+
+    private void bubbleUp(int idx) {
+        int par = getParent(idx);
+        if (array[idx].getPriority() < array[par].getPriority()) {
+            EntryPair tmp = array[par];
+            array[par] = array[idx];
+            array[idx] = tmp;
+            if (par != 1) bubbleUp(par);
+        }
+    }
+
+    private void bubbleDown(int idx) {
+        int swp = getLeft(idx);
+        if (array[getRight(idx)] != null && array[getRight(idx)].getPriority() < array[swp].getPriority())
+            swp = getRight(idx);
+        if (array[idx].getPriority() > array[swp].getPriority()) {
+            EntryPair tmp = array[swp];
+            array[swp] = array[idx];
+            array[idx] = tmp;
+            if (array[getLeft(swp)] != null) bubbleDown(swp);
+        }
+    }
+
+    private int getParent(int i) {
+        return i/2;
+    }
+
+    private int getLeft(int i) {
+        return 2*i;
+    }
+
+    private int getRight(int i) {
+        return 2*i+1;
+    }
+
 }
 
