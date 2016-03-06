@@ -2,27 +2,27 @@ import java.util.Arrays;
 
 public class MinBinHeap implements HeapInterface {
 
-    private int size;
     private EntryPair[] array;
-    private static final int INIT = 10000;
+    private int size;
+    private static final int INIT = 100000;
+
     public MinBinHeap() {
-        this.size = 0;
         this.array = new EntryPair[INIT];
         array[0] = new EntryPair(null, -100000);
     }
 
     public void insert(EntryPair entry) {
-        if (size == (array.length-1)/2) array = Arrays.copyOf(array, 2 * array.length);
-        array[size+1] = entry;
-        bubbleUp(size+1);
+        if (size() == array.length/2+1) array = Arrays.copyOf(array, 2 * array.length);
+        array[size()+1] = entry;
+        bubbleUp(size()+1);
         size++;
     }
 
     public void delMin() {
         if (array[1] != null) {
             if (array[2] == null) array[1] = null;
-            array[1] = array[size];
-            array[size] = null;
+            array[1] = array[size()];
+            array[size()] = null;
             if (array[2] != null) bubbleDown(1);
             size--;
         }
@@ -37,8 +37,9 @@ public class MinBinHeap implements HeapInterface {
     }
 
     public void build(EntryPair[] entries) {
-        array = (entries.length > INIT) ? new EntryPair[entries.length * 2] : new EntryPair[INIT];
-        for (EntryPair e: entries) insert(e);
+        array = Arrays.copyOf(entries, 2 * entries.length);
+        size = entries.length-1;
+        for (int i = size() / 2; i > 0; i--) bubbleDown(i);
     }
 
     private void print(int idx, int depth, String side, String lines) {

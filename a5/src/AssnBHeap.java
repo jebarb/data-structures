@@ -1,7 +1,4 @@
-import java.util.List;
 import java.util.Scanner;
-import java.io.File;
-import java.util.ArrayList;
 
 public class AssnBHeap {
 
@@ -59,17 +56,10 @@ public class AssnBHeap {
                 break;
             case "b":
                 try {
-                    File file_in = new File(s.next());
-                    Scanner file = new Scanner(file_in);
-                    List<EntryPair> e = new ArrayList<>();
-                    while (file.hasNext()) {
-                        String data_b = s.next();
-                        int pri_b = s.nextInt();
-                        System.err.println("Invalid argument");
-                        e.add(new EntryPair(data_b, pri_b));
-                    }
-                    EntryPair[] entries = new EntryPair[e.size()];
-                    entries = e.toArray(entries);
+                    int esize = s.nextInt();
+                    EntryPair[] entries = new EntryPair[esize+1];
+                    entries[0] = new EntryPair(null, -100000);
+                    while (esize-- > 0) entries[esize+1] = new EntryPair(MyRandom.nextString(), MyRandom.rand(1, 100));
                     heap.build(entries);
                     System.out.println();
                 } catch (Exception ex) {
@@ -117,3 +107,4 @@ public class AssnBHeap {
         }
     }
 }
+
