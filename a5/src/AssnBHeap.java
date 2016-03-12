@@ -56,16 +56,14 @@ public class AssnBHeap {
                 break;
             case "b":
                 try {
-                    int esize = s.nextInt();
-                    EntryPair[] entries = new EntryPair[esize+1];
-                    entries[0] = new EntryPair(null, -100000);
-                    while (esize-- > 0) entries[esize+1] = new EntryPair(MyRandom.nextString(), MyRandom.rand(1, 100));
+                    int eSize = s.nextInt();
+                    EntryPair[] entries = new EntryPair[eSize];
+                    while (eSize-- > 0) entries[eSize] = new EntryPair(MyRandom.nextString(), MyRandom.rand(1, 100));
                     heap.build(entries);
                     System.out.println();
                 } catch (Exception ex) {
                     System.err.println("Invalid argument");
                 }
-
                 break;
             case "s":
                 System.out.println(heap.size());
