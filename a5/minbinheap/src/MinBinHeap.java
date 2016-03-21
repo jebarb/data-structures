@@ -1,10 +1,8 @@
-import java.util.Arrays;
-
 public class MinBinHeap implements HeapInterface {
 
     private EntryPair[] array;
     private int size;
-    private static final int INIT = 100000;
+    private static final int INIT = 10000;
 
     public MinBinHeap() {
         this.array = new EntryPair[INIT];
@@ -12,7 +10,15 @@ public class MinBinHeap implements HeapInterface {
     }
 
     public void insert(EntryPair entry) {
-        if (size() == array.length/2+1) array = Arrays.copyOf(array, 2 * array.length);
+        if (size() >= array.length/3) {
+            EntryPair[] entries = new EntryPair[2 * array.length];
+            int i = 0;
+            while (i < size()+1) {
+                entries[i] = array[i];
+                i++;
+            }
+            array = entries;
+        }
         array[size()+1] = entry;
         bubbleUp(size()+1);
         size++;
