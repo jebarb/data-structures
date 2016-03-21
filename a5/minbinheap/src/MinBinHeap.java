@@ -37,12 +37,14 @@ public class MinBinHeap implements HeapInterface {
     }
 
     public void build(EntryPair[] entries) {
-        array = new EntryPair[entries.length*3];
+        array = new EntryPair[entries.length*4];
         size = 0;
         array[0] = new EntryPair(null, -100000);
-        for (int i = 0; i < array.length; i++) {
-            array[i+1] = entries[i];
+        int idx = 0;
+        while (idx < entries.length && entries[idx] != null) {
+            array[idx+1] = entries[idx];
             size++;
+            idx++;
         }
         for (int i = size() / 2; i > 0; i--) bubbleDown(i);
     }

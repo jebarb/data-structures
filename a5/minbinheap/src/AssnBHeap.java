@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class AssnBHeap {
 
@@ -16,9 +17,8 @@ public class AssnBHeap {
                         "  m                     : print min\n" +
                         "  b [FILE]              : Build heap from file\n" +
                         "  f [INT]               : fill the tree with random strings and priorities\n" +
-                        "  e                     : empty tree, validate items remove == initial size\n" +
+                        "  e                     : empty tree, validate items removed == initial size\n" +
                         "  s                     : size\n" +
-                        "  h                     : height\n" +
                         "  q                     : quit the tester loop\n" +
                         "  p                     : print the heap for inspection");
     }
@@ -43,7 +43,8 @@ public class AssnBHeap {
                 heap.delMin();
                 break;
             case "m":
-                System.out.println(heap.getMin().getValue());
+                if (heap.size() != 0) System.out.println(heap.getMin().getValue());
+                else System.out.println("null");
                 break;
             case "e":
                 int i = 0;
@@ -58,10 +59,9 @@ public class AssnBHeap {
                 try {
                     int eSize = s.nextInt();
                     EntryPair[] entries = new EntryPair[eSize];
-                    while (eSize-- > 0) entries[eSize] = new EntryPair(MyRandom.nextString(), MyRandom.rand(1, 100));
+                    while (--eSize > -1) entries[eSize] = new EntryPair(MyRandom.nextString(), MyRandom.rand(1, 100));
                     heap.build(entries);
-                    System.out.println();
-                } catch (Exception ex) {
+                } catch (InputMismatchException ex) {
                     System.err.println("Invalid argument");
                 }
                 break;

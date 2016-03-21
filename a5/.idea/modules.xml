@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/a5.iml" filepath="$PROJECT_DIR$/a5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/minbinheap/minbinheap.iml" filepath="$PROJECT_DIR$/minbinheap/minbinheap.iml" />
     </modules>
   </component>
 </project>
