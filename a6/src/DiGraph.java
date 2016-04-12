@@ -2,6 +2,48 @@ import java.util.*;
 
 public class DiGraph implements DiGraphInterface {
 
+    public void randomFill(int n) {
+        int m = n;
+        while (m-- > 0)
+            addNode(MyRandom.rand(0, 10 * n), MyRandom.nextString());
+        for (Vertex v : vertices.values()) {
+            int count = MyRandom.rand(1, n);
+            for (Vertex e : vertices.values()) {
+                if (count > 0) addEdge(MyRandom.rand(1, 10 * n), v.name, e.name, MyRandom.rand(0, 5), null);
+                count--;
+            }
+        }
+    }
+
+    public void randomRemoveNode(int n) {
+        LinkedList<String> strings = new LinkedList<>();
+        for (Vertex v : vertices.values()) {
+            if (n > 0) strings.add(v.name);
+            n--;
+        }
+        for (String s : strings) delNode(s);
+    }
+
+    public void randomRemoveEdge(int n) {
+        LinkedList<String> stringsv = new LinkedList<>();
+        LinkedList<String> stringse = new LinkedList<>();
+        for (Vertex v : vertices.values()) {
+            if (n > 0) {
+                long count = n / numNodes() + 1;
+                for (Edge e : v.edges.values()) {
+                    if (count > 0) {
+                        stringsv.push(v.name);
+                        stringse.push(e.name);
+                    }
+                    count--;
+                }
+                n--;
+            }
+        }
+        while (stringsv.size() != 0)
+            delEdge(stringsv.pop(), stringse.pop());
+    }
+
     private HashMap<String, Vertex> vertices;
     private HashSet<Long> vertex_ids, edge_ids;
 
@@ -20,12 +62,12 @@ public class DiGraph implements DiGraphInterface {
     }
 
     private class Edge {
-        String name, label;
+        String name, e_label;
         private long id, weight;
 
-        private Edge(String name, long id, long weight, String label) {
+        private Edge(String name, long id, long weight, String e_label) {
             this.name = name;
-            this.label = label;
+            this.e_label = e_label;
             this.weight = weight;
             this.id = id;
         }
@@ -68,7 +110,7 @@ public class DiGraph implements DiGraphInterface {
         if (vertices.remove(label) != null) {
             for (Vertex v : vertices.values()) {
                 Edge tmp = v.edges.get(label);
-                if (v != null) {
+                if (tmp != null) {
                     edge_ids.remove(tmp.id);
                     v.edges.remove(label);
                 }
@@ -104,12 +146,19 @@ public class DiGraph implements DiGraphInterface {
 
     @Override
     public void print() {
-
+        for (Vertex v : vertices.values()) {
+            System.out.println("(" + v.id + ")" + v.name);
+            for (Edge e : v.edges.values()) {
+                if (e.e_label != null)
+                    System.out.println("  (" + e.id + ")--" + e.e_label + "," + e.weight + "--> " + e.name);
+                else System.out.println("  (" + e.id + ")--" + e.weight + "--> " + e.name);
+            }
+        }
     }
 
     @Override
     public String[] topoSort() {
-        LinkedList<String> res = new LinkedList<String>();
+        LinkedList<String> res = new LinkedList<>();
         LinkedList<String> unmarked = new LinkedList<>();
         for (String s : vertices.keySet()) unmarked.add(s);
         while (unmarked.size() != 0)
