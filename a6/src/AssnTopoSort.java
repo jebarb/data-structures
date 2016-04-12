@@ -6,6 +6,7 @@ public class AssnTopoSort {
         g.addNode(10, "Tes");
         g.addEdge(123, "Test", "Tes", 123, "sdfg");
         System.out.println(g.numEdges() + " " + g.numNodes());
+        g.topoSort();
     }
 
     // anything else you need to add in
