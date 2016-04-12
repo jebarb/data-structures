@@ -4,7 +4,7 @@ public class AssnTopoSort {
         DiGraph g = new DiGraph();
         g.addNode(100, "Test");
         g.addNode(10, "Tes");
-        g.addEdge(123, "Test", "gfd", 123, "sdfg");
+        g.addEdge(123, "Test", "Tes", 123, "sdfg");
         System.out.println(g.numEdges() + " " + g.numNodes());
     }
 
