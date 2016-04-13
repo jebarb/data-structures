@@ -21,7 +21,7 @@ public class DiGraph implements DiGraphInterface {
             if (n > 0) strings.add(v.name);
             n--;
         }
-        for (String s : strings) delNode(s);
+        strings.forEach(s -> delNode(s));
     }
 
     public void randomRemoveEdge(int n) {
@@ -44,19 +44,19 @@ public class DiGraph implements DiGraphInterface {
             delEdge(stringsv.pop(), stringse.pop());
     }
 
-    private HashMap<String, Vertex> vertices;
-    private HashSet<Long> vertex_ids, edge_ids;
+    private LinkedHashMap<String, Vertex> vertices;
+    private LinkedHashSet<Long> vertex_ids, edge_ids;
 
     private class Vertex {
         String name;
         boolean marked;
         private long id;
-        private HashMap<String, Edge> edges;
+        private LinkedHashMap<String, Edge> edges;
 
         private Vertex(String name, long id) {
             this.name = name;
             this.id = id;
-            this.edges = new HashMap<>();
+            this.edges = new LinkedHashMap<>();
             this.marked = false;
         }
     }
@@ -74,9 +74,9 @@ public class DiGraph implements DiGraphInterface {
     }
 
     public DiGraph() {
-        this.vertices = new HashMap<>();
-        this.vertex_ids = new HashSet<>();
-        this.edge_ids = new HashSet<>();
+        this.vertices = new LinkedHashMap<>();
+        this.vertex_ids = new LinkedHashSet<>();
+        this.edge_ids = new LinkedHashSet<>();
 
     }
 
@@ -98,25 +98,23 @@ public class DiGraph implements DiGraphInterface {
                 edge_ids.add(idNum);
                 return true;
             } else return false;
-        }
-        return false;
+        } else return false;
     }
 
     @Override
     public boolean delNode(String label) {
         Vertex vert = vertices.get(label);
         if (vert == null) return false;
-        long idNum = vert.id;
+        vert.edges.values().forEach(e -> edge_ids.remove(e.id));
+        vertex_ids.remove(vert.id);
         if (vertices.remove(label) != null) {
-            for (Vertex v : vertices.values()) {
-                Edge tmp = v.edges.get(label);
-                if (tmp != null) {
-                    edge_ids.remove(tmp.id);
+            vertices.values().forEach(v -> {
+                Edge e = v.edges.get(label);
+                if (e != null) {
+                    edge_ids.remove(e.id);
                     v.edges.remove(label);
                 }
-            }
-            for (Edge e : vert.edges.values()) edge_ids.remove(e.id);
-            vertex_ids.remove(idNum);
+            });
             return true;
         } else return false;
     }
@@ -127,11 +125,11 @@ public class DiGraph implements DiGraphInterface {
         if (v == null) return false;
         Edge e = v.edges.get(dLabel);
         if (e == null) return false;
-        long idNum = e.id;
-        if (v.edges.remove(dLabel) != null) {
-            edge_ids.remove(idNum);
+        else {
+            edge_ids.remove(e.id);
+            v.edges.remove(dLabel);
             return true;
-        } else return false;
+        }
     }
 
     @Override
@@ -146,27 +144,27 @@ public class DiGraph implements DiGraphInterface {
 
     @Override
     public void print() {
-        for (Vertex v : vertices.values()) {
+        vertices.values().forEach(v -> {
             System.out.println("(" + v.id + ")" + v.name);
-            for (Edge e : v.edges.values()) {
+            v.edges.values().forEach(e -> {
                 if (e.e_label != null)
                     System.out.println("  (" + e.id + ")--" + e.e_label + "," + e.weight + "--> " + e.name);
                 else System.out.println("  (" + e.id + ")--" + e.weight + "--> " + e.name);
-            }
-        }
+            });
+        });
     }
 
     @Override
     public String[] topoSort() {
-        LinkedList<String> res = new LinkedList<>();
-        LinkedList<String> unmarked = new LinkedList<>();
-        for (String s : vertices.keySet()) unmarked.add(s);
+        String[] res = new String[vertices.size()];
+        LinkedHashSet<String> unmarked = new LinkedHashSet<>();
+        unmarked.addAll(vertices.keySet());
         while (unmarked.size() != 0)
-            if (!visit(unmarked.get(0), res, unmarked)) return null;
-        return res.toArray(new String[res.size()]);
+            if (!visit(unmarked.iterator().next(), res, unmarked)) return null;
+        return res;
     }
 
-    private boolean visit(String s, LinkedList res, LinkedList<String> unmarked) {
+    private boolean visit(String s, String[] res, LinkedHashSet<String> unmarked) {
         Vertex v = vertices.get(s);
         if (v.marked) return false;
         else if (!unmarked.contains(s)) return true;
@@ -179,15 +177,9 @@ public class DiGraph implements DiGraphInterface {
             }
             unmarked.remove(v.name);
             v.marked = false;
-            res.add(0, s);
+            res[unmarked.size()] = s;
             return true;
         }
 
-    }
-
-
-    private Vertex findNewVertexOfIndegreeZero() {
-        for (Vertex v : vertices.values()) if (v.edges.size() == 0) return v;
-        return null;
     }
 }

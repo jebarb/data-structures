@@ -294,4 +294,19 @@ public class TestDiGraph {
                     possible3_str + "'");
         }
     }
+
+    /**
+     * Ensures that a repeated basic topological sort is non-destructive.
+     */
+    @Test
+    public void testNonDestructiveTopoSort() {
+        DiGraphInterface edged = new DiGraph();
+
+        assertTrue(edged.addNode(1, "1"));
+        assertTrue(edged.addNode(2, "2"));
+        assertTrue(edged.addEdge(1, "1", "2", 1, null));
+
+        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
+        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
+    }
 }

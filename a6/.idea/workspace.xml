@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4960bd4-27f1-4d1b-801d-30819f6f697d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/MyRandom.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/AssnTopoSort.class" afterPath="$PROJECT_DIR$/out/production/a6/AssnTopoSort.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/DiGraph$Edge.class" afterPath="$PROJECT_DIR$/out/production/a6/DiGraph$Edge.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/DiGraph$Vertex.class" afterPath="$PROJECT_DIR$/out/production/a6/DiGraph$Vertex.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/DiGraph.class" afterPath="$PROJECT_DIR$/out/production/a6/DiGraph.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/TestDiGraph.class" afterPath="$PROJECT_DIR$/out/production/a6/TestDiGraph.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AssnTopoSort.java" afterPath="$PROJECT_DIR$/src/AssnTopoSort.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/DiGraph.java" afterPath="$PROJECT_DIR$/src/DiGraph.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TestDiGraph.java" afterPath="$PROJECT_DIR$/src/TestDiGraph.java" />
     </list>
     <ignored path="a6.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +38,8 @@
       <file leaf-file-name="DiGraph.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/DiGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="31" column="20" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
+            <state relative-caret-position="-1440">
+              <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -48,8 +48,8 @@
       <file leaf-file-name="TestDiGraph.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TestDiGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4248">
-              <caret line="177" column="42" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
+            <state relative-caret-position="6768">
+              <caret line="284" column="39" selection-start-line="284" selection-start-column="39" selection-end-line="284" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -60,11 +60,9 @@
       <file leaf-file-name="AssnTopoSort.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AssnTopoSort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -96,10 +94,10 @@
         <option value="$PROJECT_DIR$/src/TestDiGraph.groovy" />
         <option value="$PROJECT_DIR$/src/DiGraphTest.java" />
         <option value="$PROJECT_DIR$/src/tests/TestDiGraph.java" />
-        <option value="$PROJECT_DIR$/src/TestDiGraph.java" />
         <option value="$PROJECT_DIR$/src/MyRandom.java" />
-        <option value="$PROJECT_DIR$/src/AssnTopoSort.java" />
+        <option value="$PROJECT_DIR$/src/TestDiGraph.java" />
         <option value="$PROJECT_DIR$/src/DiGraph.java" />
+        <option value="$PROJECT_DIR$/src/AssnTopoSort.java" />
       </list>
     </option>
   </component>
@@ -180,9 +178,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -694,44 +692,46 @@
       <workItem from="1460424203595" duration="10725000" />
       <workItem from="1460435008381" duration="2075000" />
       <workItem from="1460437485905" duration="2862000" />
-      <workItem from="1460473172170" duration="10663000" />
+      <workItem from="1460473172170" duration="11116000" />
+      <workItem from="1460559807466" duration="3557000" />
+      <workItem from="1460563909010" duration="1293000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="TestDiGraph - 2016.04.12 at 12h 57m 56s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestDiGraph - 2016.04.12 at 12h 59m 08s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestDiGraph - 2016.04.12 at 12h 59m 50s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestDiGraph - 2016.04.12 at 13h 00m 18s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestDiGraph - 2016.04.12 at 13h 00m 26s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestDiGraph - 2016.04.12 at 13h 00m 56s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestDiGraph - 2016.04.12 at 13h 01m 15s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TestDiGraph - 2016.04.12 at 13h 01m 29s.xml">
-      <configuration name="TestDiGraph" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="TestDiGraph - 2016.04.12 at 13h 02m 33s.xml">
       <configuration name="TestDiGraph" configurationId="JUnit" />
     </history-entry>
     <history-entry file="TestDiGraph - 2016.04.12 at 13h 11m 22s.xml">
       <configuration name="TestDiGraph" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 11h 07m 08s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 11h 19m 20s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 11h 19m 40s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 11h 24m 57s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 11h 25m 06s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 11h 54m 30s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 11h 56m 51s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestDiGraph - 2016.04.13 at 12h 13m 20s.xml">
+      <configuration name="TestDiGraph" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28593000" />
+    <option name="totallyTimeSpent" value="33896000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1159" y="45" width="1389" height="1543" extended-state="0" />
@@ -745,7 +745,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977968" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3084577" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30774698" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -784,6 +784,58 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/DiGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TestDiGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6768">
+          <caret line="284" column="39" selection-start-line="284" selection-start-column="39" selection-end-line="284" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AssnTopoSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DiGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="744">
+          <caret line="31" column="20" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TestDiGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4200">
+          <caret line="177" column="42" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AssnTopoSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DiGraphInterface.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -830,9 +882,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -866,9 +916,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
           <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -925,30 +973,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AssnTopoSort.java">
+    <entry file="file://$PROJECT_DIR$/src/TestDiGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+        <state relative-caret-position="6768">
+          <caret line="284" column="39" selection-start-line="284" selection-start-column="39" selection-end-line="284" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TestDiGraph.java">
+    <entry file="file://$PROJECT_DIR$/src/AssnTopoSort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4248">
-          <caret line="177" column="42" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DiGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="31" column="20" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
+        <state relative-caret-position="-1440">
+          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
           <folding />
         </state>
       </provider>
