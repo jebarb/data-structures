@@ -30,7 +30,7 @@ public class DiGraph implements DiGraphInterface {
         for (Vertex v : vertices.values()) {
             if (n > 0) {
                 long count = n / numNodes() + 1;
-                for (Edge e : v.edges.values()) {
+                for (Edge e : v.in_edges.values()) {
                     if (count > 0) {
                         stringsv.push(v.name);
                         stringse.push(e.name);
@@ -45,18 +45,20 @@ public class DiGraph implements DiGraphInterface {
     }
 
     private LinkedHashMap<String, Vertex> vertices;
-    private LinkedHashSet<Long> vertex_ids, edge_ids;
+    private LinkedHashSet<Long> edge_ids, vertex_ids;
 
     private class Vertex {
         String name;
         boolean marked;
         private long id;
-        private LinkedHashMap<String, Edge> edges;
+        private LinkedHashMap<String, Edge> out_edges, in_edges;
+
 
         private Vertex(String name, long id) {
             this.name = name;
             this.id = id;
-            this.edges = new LinkedHashMap<>();
+            this.in_edges = new LinkedHashMap<>();
+            this.out_edges = new LinkedHashMap<>();
             this.marked = false;
         }
     }
@@ -94,7 +96,8 @@ public class DiGraph implements DiGraphInterface {
         if (idNum >= 0 && sLabel != null && dLabel != null &&
                 vertices.containsKey(dLabel) && !edge_ids.contains(idNum)) {
             Vertex v = vertices.get(sLabel);
-            if (v != null && v.edges.putIfAbsent(dLabel, new Edge(dLabel, idNum, weight, eLabel)) == null) {
+            if (v != null && v.out_edges.putIfAbsent(dLabel, new Edge(dLabel, idNum, weight, eLabel)) == null) {
+                vertices.get(dLabel).in_edges.put(sLabel, new Edge(sLabel, idNum, weight, eLabel));
                 edge_ids.add(idNum);
                 return true;
             } else return false;
@@ -105,15 +108,16 @@ public class DiGraph implements DiGraphInterface {
     public boolean delNode(String label) {
         Vertex vert = vertices.get(label);
         if (vert == null) return false;
-        vert.edges.values().forEach(e -> edge_ids.remove(e.id));
+        vert.out_edges.values().forEach(e -> {
+            edge_ids.remove(e.id);
+            vertices.get(e.name).in_edges.remove(label);
+        });
         vertex_ids.remove(vert.id);
         if (vertices.remove(label) != null) {
-            vertices.values().forEach(v -> {
-                Edge e = v.edges.get(label);
-                if (e != null) {
-                    edge_ids.remove(e.id);
-                    v.edges.remove(label);
-                }
+            vert.in_edges.values().forEach(e -> {
+                Vertex v = vertices.get(e.name);
+                edge_ids.remove(v.out_edges.get(label).id);
+                v.out_edges.remove(label);
             });
             return true;
         } else return false;
@@ -123,11 +127,12 @@ public class DiGraph implements DiGraphInterface {
     public boolean delEdge(String sLabel, String dLabel) {
         Vertex v = vertices.get(sLabel);
         if (v == null) return false;
-        Edge e = v.edges.get(dLabel);
+        Edge e = v.out_edges.get(dLabel);
         if (e == null) return false;
         else {
             edge_ids.remove(e.id);
-            v.edges.remove(dLabel);
+            vertices.get(dLabel).in_edges.remove(sLabel);
+            v.out_edges.remove(dLabel);
             return true;
         }
     }
@@ -146,7 +151,7 @@ public class DiGraph implements DiGraphInterface {
     public void print() {
         vertices.values().forEach(v -> {
             System.out.println("(" + v.id + ")" + v.name);
-            v.edges.values().forEach(e -> {
+            v.out_edges.values().forEach(e -> {
                 if (e.e_label != null)
                     System.out.println("  (" + e.id + ")--" + e.e_label + "," + e.weight + "--> " + e.name);
                 else System.out.println("  (" + e.id + ")--" + e.weight + "--> " + e.name);
@@ -170,7 +175,7 @@ public class DiGraph implements DiGraphInterface {
         else if (!unmarked.contains(s)) return true;
         else {
             v.marked = true;
-            for (Edge e : v.edges.values()) {
+            for (Edge e : v.out_edges.values()) {
                 Vertex tmp = vertices.get(e.name);
                 if (tmp != null)
                     if (!visit(tmp.name, res, unmarked)) return false;

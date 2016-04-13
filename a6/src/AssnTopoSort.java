@@ -4,6 +4,7 @@ public class AssnTopoSort {
 
     public static void main(String[] args) {
         DiGraph g = new DiGraph();
+        /*
         String[] vertices = {"Raleigh", "Durham", "Chapel Hill", "Graham", "Carrboro", "Cary", "Pittsboro", "Sanford", "Los Angeles", "Hillsboro"};
         int i = 0;
         for (String s: vertices) {
@@ -23,10 +24,18 @@ public class AssnTopoSort {
         g.addEdge(++i, "Pittsboro", "Sanford", 15, ".");
         g.addEdge(++i, "Sanford", "Los Angeles", 1007, ".");
         //g.randomFill(10);
+        */
+        g.addNode(1, "a");
+        g.addNode(2, "b");
+        g.addNode(3, "c");
+        g.addEdge(2, "a", "b", 1, null);
+        g.addEdge(1, "a", "c", 1, null);
+        g.addEdge(3, "c", "b", 1, null);
         g.print();
         String[] str = g.topoSort();
         if (str != null) System.out.println(Arrays.toString(str));
         System.out.println(g.numEdges() + " " + g.numNodes());
+
         //g.randomRemoveEdge(100);
         //g.randomRemoveNode(10);
         //g.print();
