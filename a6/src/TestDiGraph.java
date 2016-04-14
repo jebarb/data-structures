@@ -1,8 +1,40 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
-import java.util.Arrays;
 
 public class TestDiGraph {
+    /*
+     * Refactoring the commonalities of comparing toposorts with multiple
+     * valid results, into its own function.
+    */
+    public void assertCorrectSort(DiGraphInterface graph, String... correct) {
+        String[] sorted = graph.topoSort();
+        if (sorted == null) {
+            fail("Failed to sort graph, but it has a valid sort");
+        }
+
+        String sorted_string = String.join("", sorted);
+
+        boolean found_match = false;
+        for (String possible : correct) {
+            if (sorted_string.equals(possible)) {
+                found_match = true;
+                break;
+            }
+        }
+
+        if (!found_match) {
+            int idx = 0;
+            String[] decorated = new String[correct.length];
+            for (String possible : correct) {
+                decorated[idx] = "'" + possible + "'";
+                idx++;
+            }
+
+            String all_correct = String.join(", ", decorated);
+            fail("Topological sort was '" + sorted_string + "' but expected one of the following: " + all_correct);
+        }
+    }
+
     /*
      * Ensure the empty graph starts off correctly.
      */
@@ -11,7 +43,7 @@ public class TestDiGraph {
         DiGraphInterface empty = new DiGraph();
         assertEquals(0, empty.numEdges());
         assertEquals(0, empty.numNodes());
-        assertArrayEquals(new String[] {}, empty.topoSort());
+        assertCorrectSort(empty, "");
     }
 
     /*
@@ -24,7 +56,7 @@ public class TestDiGraph {
 
         assertEquals(0, singleton.numEdges());
         assertEquals(1, singleton.numNodes());
-        assertArrayEquals(new String[] {"1"}, singleton.topoSort());
+        assertCorrectSort(singleton, "1");
     }
 
     /*
@@ -43,7 +75,7 @@ public class TestDiGraph {
 
         assertEquals(0, singleton.numEdges());
         assertEquals(1, singleton.numNodes());
-        assertArrayEquals(new String[] {"1"}, singleton.topoSort());
+        assertCorrectSort(singleton, "1");
     }
 
     /**
@@ -59,7 +91,7 @@ public class TestDiGraph {
 
         assertEquals(0, singleton.numEdges());
         assertEquals(1, singleton.numNodes());
-        assertArrayEquals(new String[] {"1"}, singleton.topoSort());
+        assertCorrectSort(singleton, "1");
     }
 
     /*
@@ -74,7 +106,7 @@ public class TestDiGraph {
 
         assertEquals(0, singleton.numEdges());
         assertEquals(0, singleton.numNodes());
-        assertArrayEquals(new String[] {}, singleton.topoSort());
+        assertCorrectSort(singleton, "");
     }
 
     /*
@@ -91,7 +123,7 @@ public class TestDiGraph {
 
         assertEquals(1, edged.numEdges());
         assertEquals(2, edged.numNodes());
-        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
+        assertCorrectSort(edged, "12");
     }
 
     /**
@@ -118,7 +150,7 @@ public class TestDiGraph {
 
         assertEquals(1, edged.numEdges());
         assertEquals(2, edged.numNodes());
-        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
+        assertCorrectSort(edged, "12");
     }
 
     /**
@@ -138,7 +170,7 @@ public class TestDiGraph {
 
         assertEquals(1, edged.numEdges());
         assertEquals(2, edged.numNodes());
-        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
+        assertCorrectSort(edged, "12");
     }
 
 
@@ -175,7 +207,7 @@ public class TestDiGraph {
 
         assertEquals(1, edged.numEdges());
         assertEquals(2, edged.numNodes());
-        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
+        assertCorrectSort(edged, "12");
     }
 
     /**
@@ -194,7 +226,7 @@ public class TestDiGraph {
 
         assertEquals(0, edged.numEdges());
         assertEquals(1, edged.numNodes());
-        assertArrayEquals(new String[] {"1"}, edged.topoSort());
+        assertCorrectSort(edged, "1");
     }
 
     /**
@@ -211,44 +243,28 @@ public class TestDiGraph {
         sortable.addEdge(1, "3", "2", 1, null);
         sortable.addEdge(2, "3", "1", 1, null);
         sortable.addEdge(3, "2", "4", 1, null);
-
+		
 		/*
 		 * Graphical representation:
-		 *
+		 * 
 		 * 3 -> 2 -> 4
 		 *  \-> 1
-		 *
+		 *  
 		 * There are three possible topological sorts:
-		 *
+		 * 
 		 * [3, 2, 4, 1]
 		 * [3, 2, 1, 4]
 		 * [3, 1, 2, 4]
-		 *
+		 * 
 		 * Any one of these sorting results should be allowed.
-		 *
+		 * 
 		 * (The weird order is because I had issues with this test essentially
 		 * doing *nothing* (!) since it didn't connect any edges, and the sort
 		 * that I wrote spits out the edges from 1 to 4 in order. By swapping
 		 * the nodes out of ID order, I can ensure that the test actually does
 		 * something).
 		 */
-        String[] sorted = sortable.topoSort();
-        String[] possible1 = new String[] { "3", "2", "4", "1"};
-        String[] possible2 = new String[] { "3", "2", "1", "4"};
-        String[] possible3 = new String[] { "3", "1", "2", "4"};
-
-        if (!Arrays.equals(sorted, possible1) &&
-                !Arrays.equals(sorted, possible2) &&
-                !Arrays.equals(sorted, possible3)) {
-            String sorted_str = String.join(" ", sorted);
-            String possible1_str = String.join(" ", possible1);
-            String possible2_str = String.join(" ", possible2);
-            String possible3_str = String.join(" ", possible3);
-
-            fail("Topological sort result was '" + sorted_str + "', expected " +
-                    "'" + possible1_str + "' or '" + possible2_str + "' or '" +
-                    possible3_str + "'");
-        }
+        assertCorrectSort(sortable, "3241", "3214", "3124");
     }
 
     /**
@@ -262,37 +278,21 @@ public class TestDiGraph {
         sortable.addNode(3, "3");
 
         sortable.addEdge(1, "2", "1", 1, null);
-
+		
 		/*
 		 * Graphical representation:
-		 *
+		 * 
 		 * 2 -> 1
-		 *
+		 * 
 		 * 3
-		 *
+		 * 
 		 * Valid sorts:
-		 *
+		 * 
 		 *   [2, 1, 3]
 		 *   [2, 3, 1]
 		 *   [3, 2, 1]
 		 */
-        String[] sorted = sortable.topoSort();
-        String[] possible1 = new String[] { "2", "1", "3" };
-        String[] possible2 = new String[] { "2", "3", "1" };
-        String[] possible3 = new String[] { "3", "2", "1" };
-
-        if (!Arrays.equals(sorted, possible1) &&
-                !Arrays.equals(sorted, possible2) &&
-                !Arrays.equals(sorted, possible3)) {
-            String sorted_str = String.join(" ", sorted);
-            String possible1_str = String.join(" ", possible1);
-            String possible2_str = String.join(" ", possible2);
-            String possible3_str = String.join(" ", possible3);
-
-            fail("Topological sort result was '" + sorted_str + "', expected " +
-                    "'" + possible1_str + "' or '" + possible2_str + "' or '" +
-                    possible3_str + "'");
-        }
+        assertCorrectSort(sortable, "213", "231", "321");
     }
 
     /**
@@ -306,7 +306,7 @@ public class TestDiGraph {
         assertTrue(edged.addNode(2, "2"));
         assertTrue(edged.addEdge(1, "1", "2", 1, null));
 
-        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
-        assertArrayEquals(new String[] {"1", "2"}, edged.topoSort());
+        assertCorrectSort(edged, "12");
+        assertCorrectSort(edged, "12");
     }
 }

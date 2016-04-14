@@ -117,9 +117,11 @@ public class DiGraph implements DiGraphInterface {
     public String[] topoSort() {
         String[] res = new String[vertices.size()];
         HashSet<String> unmarked = new HashSet<>();
+        LinkedList<String> queue = new LinkedList<>();
         unmarked.addAll(vertices.keySet());
+        queue.addAll(unmarked);
         while (unmarked.size() != 0)
-            if (!visit(unmarked.iterator().next(), res, unmarked)) return null;
+            if (!visit(queue.pop(), res, unmarked)) return null;
         return res;
     }
 
@@ -135,4 +137,5 @@ public class DiGraph implements DiGraphInterface {
         res[unmarked.size()] = s;
         return true;
     }
+
 }
