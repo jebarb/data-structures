@@ -1,9 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class AssnTopoSort {
@@ -68,28 +66,32 @@ public class AssnTopoSort {
         g.addEdge(++i, "Cary", "Raleigh", 3, ".");
         g.addEdge(++i, "Pittsboro", "Cary", 19, ".");
         g.addEdge(++i, "Pittsboro", "Sanford", 15, ".");
-        g.addEdge(++i, "Sanford", "Los Angeles", 1007, ".");
+        g.addEdge(++i, "Sanford", "Los Angeles", 3007, ".");
         g.print();
-        System.out.println(g.numEdges() + " " + g.numNodes());
-        String[] str = g.topoSort();
-        if (str != null) System.out.println(Arrays.toString(str));
+        System.out.println("Nodes: " + g.numNodes() + " Edges: " + g.numEdges());
+        String[] str = null;
+        str= g.topoSort();
+        if (str != null) System.out.println("Toposort: \n" + Arrays.toString(str));
+        List<String> l_path = g.shortestPath("Carrboro");
+        String[] path = new String[l_path.size()];
+        l_path.toArray(path);
+        if (str != null) System.out.println("Dijkstra's algorithm: \n" + Arrays.toString(path));
         for (String s : vertices)
             g.delNode(s);
-        System.out.println(g.numEdges() + " " + g.numNodes());
-        str = g.topoSort();
-        if (str != null) System.out.println(Arrays.toString(str));
-
+        System.out.println("Graph is empty after removing all nodes: " + (g.numNodes() == 0 && g.numEdges() == 0));
 
         //fill with random strings from file
         long start = System.nanoTime();
-        long count = 1000000;                              //change this to insert more nodes
-        count = (long) (count * 2.5);
+        int count = 100000;                              //change this to insert more nodes
+        System.out.printf("\n\nRandom fill of %d nodes and %d edges:\n", count, (int) (count * 1.5));
+        count = (int) (count * 2.5);
+        String source = "";
         try {
             File f = new File("randomstrings.txt");
             Scanner s = new Scanner(f);
             i = 0;
             while (s.hasNext() && i < count) {
-                String source = s.next();
+                source = s.next();
                 String dest1 = s.next();
                 String dest2 = s.next();
                 String dest3 = s.next();
@@ -108,8 +110,7 @@ public class AssnTopoSort {
             System.out.println("error");
         }
         long inserted = System.nanoTime();
-
-        System.out.println("Edges: " + g.numEdges() + " Nodes: " + g.numNodes());
+        System.out.println("Nodes: " + g.numNodes() + " Edges: " + g.numEdges());
         System.out.printf("Insertion time: %.2f seconds\n", (double) (inserted - start) / 1000000000.0);
         str = g.topoSort();
         long sorted = System.nanoTime();
@@ -117,13 +118,21 @@ public class AssnTopoSort {
         else System.out.println("Graph contains cycle");
         System.out.printf("Toposort time: %.2f seconds\n", (double) (sorted - inserted) / 1000000000.0);
 
+        List<String> list_path = g.shortestPath(source);
+        String[] rand_path = new String[list_path.size()];
+        list_path.toArray( rand_path);
+        long short_path = System.nanoTime();
+        System.out.println("Dijkstra's algorithm is of correct length: " + (rand_path.length == g.numNodes() && rand_path[(int)g.numNodes()-1] != null));
+        System.out.printf("Dijkstra's algorithm time: %.2f seconds\n", (double) (short_path - sorted) / 1000000000.0);
+
+
         //remove all nodes from file
         try {
             File f = new File("randomstrings.txt");
             Scanner s = new Scanner(f);
             i = 0;
             while (s.hasNext() && i < count) {
-                String source = s.next();
+                source = s.next();
                 String dest1 = s.next();
                 String dest2 = s.next();
                 String dest3 = s.next();
