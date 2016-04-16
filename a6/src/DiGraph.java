@@ -6,7 +6,7 @@ public class DiGraph implements DiGraphInterface {
     private HashSet<Long> edge_ids, vertex_ids;
 
     private class Vertex implements Comparable<Vertex> {
-        boolean marked;
+        boolean visiting, marked;
         private String label;
         private Vertex parent;
         private long id;
@@ -16,17 +16,20 @@ public class DiGraph implements DiGraphInterface {
 
         private Vertex(String label, long id) {
             this.parent = null;
-            this.dist = Double.NaN;
             this.label = label;
             this.id = id;
             this.out_edges = new HashMap<>();
             this.in_edges = new HashMap<>();
             this.marked = false;
+            this.visiting = false;
+            this.dist = Double.NaN;
         }
 
         @Override
         public int compareTo(Vertex other) {
-            return Double.valueOf(dist).compareTo(other.dist);
+            int res = Double.valueOf(dist).compareTo(other.dist);
+            if (res == 0) res = label.compareTo(other.label);
+            return res;
         }
     }
 
@@ -66,7 +69,7 @@ public class DiGraph implements DiGraphInterface {
             Vertex dest = vertices.get(dLabel);
             Edge e = new Edge(idNum, weight, eLabel, dest, source);
             if (source != null && dest != null && source.out_edges.putIfAbsent(dLabel, e) == null) {
-                vertices.get(dLabel).in_edges.put(sLabel, e);
+                dest.in_edges.put(sLabel, e);
                 edge_ids.add(idNum);
                 return true;
             } else return false;
@@ -75,15 +78,15 @@ public class DiGraph implements DiGraphInterface {
 
     @Override
     public boolean delNode(String label) {
-        Vertex vert = vertices.get(label);
-        if (vert == null) return false;
+        Vertex v = vertices.get(label);
+        if (v == null) return false;
         vertices.remove(label);
-        vertex_ids.remove(vert.id);
-        vert.out_edges.values().forEach(e -> {
+        vertex_ids.remove(v.id);
+        v.out_edges.values().forEach(e -> {
             edge_ids.remove(e.id);
             e.dest.in_edges.remove(label);
         });
-        vert.in_edges.values().forEach(e -> {
+        v.in_edges.values().forEach(e -> {
             edge_ids.remove(e.id);
             e.source.out_edges.remove(label);
         });
@@ -96,12 +99,10 @@ public class DiGraph implements DiGraphInterface {
         if (v == null) return false;
         Edge e = v.out_edges.get(dLabel);
         if (e == null) return false;
-        else {
-            edge_ids.remove(e.id);
-            e.dest.in_edges.remove(sLabel);
-            v.out_edges.remove(dLabel);
-            return true;
-        }
+        edge_ids.remove(e.id);
+        e.dest.in_edges.remove(sLabel);
+        v.out_edges.remove(dLabel);
+        return true;
     }
 
     @Override
@@ -129,22 +130,21 @@ public class DiGraph implements DiGraphInterface {
     @Override
     public String[] topoSort() {
         String[] res = new String[vertices.size()];
-        HashSet<String> unmarked = new HashSet<>();
-        unmarked.addAll(vertices.keySet());
+        HashMap<String, Vertex> marked = new HashMap<>();
         for (Vertex v : vertices.values())
-            if (!visit(v, res, unmarked)) return null;
+            if (!visit(v, res, marked)) return null;
         return res;
     }
 
-    private boolean visit(Vertex v, String[] res, HashSet<String> unmarked) {
-        if (!unmarked.contains(v.label)) return true;
-        if (v.marked) return false;
-        v.marked = true;
+    private boolean visit(Vertex v, String[] res, HashMap<String, Vertex> marked) {
+        if (marked.containsKey(v.label)) return true;
+        if (v.visiting) return false;
+        v.visiting = true;
         for (Edge e : v.out_edges.values())
-            if (!visit(e.dest, res, unmarked)) return false;
-        unmarked.remove(v.label);
-        v.marked = false;
-        res[unmarked.size()] = v.label;
+            if (!visit(e.dest, res, marked)) return false;
+        marked.put(v.label, v);
+        v.visiting = false;
+        res[vertices.size() - marked.size()] = v.label;
         return true;
     }
 

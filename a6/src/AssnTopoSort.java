@@ -6,40 +6,33 @@ import java.util.*;
 
 public class AssnTopoSort {
 
-    private class MyRandom {
+    private static Random rn = new Random();
 
-        private Random rn = new Random();
-
-        private MyRandom() {
-        }
-
-        public int rand(int lo, int hi) {
-            int n = hi - lo + 1;
-            int i = rn.nextInt() % n;
-            if (i < 0) i = -i;
-            return lo + i;
-        }
-
-        public String nextString(int lo, int hi) {
-            int n = rand(lo, hi);
-            byte b[] = new byte[n];
-            for (int i = 0; i < n; i++)
-                b[i] = (byte) rand('a', 'z');
-            return new String(b);
-        }
-
-        private String nextString() {
-            return nextString(5, 25);
-        }
+    private static int rand(int lo, int hi) {
+        int n = hi - lo + 1;
+        int i = rn.nextInt() % n;
+        if (i < 0) i = -i;
+        return lo + i;
     }
 
-    private void genRandStringFile(int num) {
+    private static String nextString(int lo, int hi) {
+        int n = rand(lo, hi);
+        byte b[] = new byte[n];
+        for (int i = 0; i < n; i++)
+            b[i] = (byte) rand('a', 'z');
+        return new String(b);
+    }
+
+    private static String nextString() {
+        return nextString(5, 25);
+    }
+
+    private static void genRandStringFile(int num) {
         try {
             File f = new File("randomstrings.txt");
             PrintWriter p = new PrintWriter("randomstrings.txt", "UTF-8");
-            MyRandom rand = new MyRandom();
             for (int i = 0; i < num; i++)
-                p.println(rand.nextString());
+                p.println(nextString());
             p.close();
         } catch (Exception ex) {
         }
@@ -48,6 +41,8 @@ public class AssnTopoSort {
     private static DiGraph g = new DiGraph();
 
     public static void main(String[] args) {
+
+        //genRandStringFile(10000000);
 
         String[] vertices = {"Raleigh", "Durham", "Chapel Hill", "Graham", "Carrboro", "Cary", "Pittsboro", "Sanford", "Los Angeles", "Hillsboro"};
         long i = 0;
@@ -70,7 +65,7 @@ public class AssnTopoSort {
         g.print();
         System.out.println("Nodes: " + g.numNodes() + " Edges: " + g.numEdges());
         String[] str = null;
-        str= g.topoSort();
+        str = g.topoSort();
         if (str != null) System.out.println("Toposort: \n" + Arrays.toString(str));
         List<String> l_path = g.shortestPath("Carrboro");
         String[] path = new String[l_path.size()];
@@ -82,7 +77,7 @@ public class AssnTopoSort {
 
         //fill with random strings from file
         long start = System.nanoTime();
-        int count = 100000;                              //change this to insert more nodes
+        int count = 1000000;
         System.out.printf("\n\nRandom fill of %d nodes and %d edges:\n", count, (int) (count * 1.5));
         count = (int) (count * 2.5);
         String source = "";
@@ -107,22 +102,24 @@ public class AssnTopoSort {
                 g.addEdge(++i, dest2, dest3, 1, null);
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("error");
+            System.err.println("File not found");
+            System.exit(1);
         }
         long inserted = System.nanoTime();
         System.out.println("Nodes: " + g.numNodes() + " Edges: " + g.numEdges());
         System.out.printf("Insertion time: %.2f seconds\n", (double) (inserted - start) / 1000000000.0);
         str = g.topoSort();
         long sorted = System.nanoTime();
-        if (str != null) System.out.println("Toposort is of correct length: " + (str[0] != null));
+        if (str != null)
+            System.out.println("Toposort is of correct length: " + (str.length == g.numNodes() && str[0] != null));
         else System.out.println("Graph contains cycle");
         System.out.printf("Toposort time: %.2f seconds\n", (double) (sorted - inserted) / 1000000000.0);
 
         List<String> list_path = g.shortestPath(source);
         String[] rand_path = new String[list_path.size()];
-        list_path.toArray( rand_path);
+        list_path.toArray(rand_path);
         long short_path = System.nanoTime();
-        System.out.println("Dijkstra's algorithm is of correct length: " + (rand_path.length == g.numNodes() && rand_path[(int)g.numNodes()-1] != null));
+        System.out.println("Dijkstra's algorithm is of correct length: " + (rand_path.length == g.numNodes() && rand_path[(int) g.numNodes() - 1] != null));
         System.out.printf("Dijkstra's algorithm time: %.2f seconds\n", (double) (short_path - sorted) / 1000000000.0);
 
 
