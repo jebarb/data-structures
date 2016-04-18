@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.*;
 
 
@@ -38,11 +39,16 @@ public class AssnTopoSort {
         }
     }
 
+    private static List<String> genRandStringList(int num) {
+        List<String> res = new LinkedList<>();
+        for (int i = 0; i < num; i++)
+            res.add(nextString());
+        return res;
+    }
+
     private static DiGraph g = new DiGraph();
 
     public static void main(String[] args) {
-
-        //genRandStringFile(10000000);
 
         String[] vertices = {"Raleigh", "Durham", "Chapel Hill", "Graham", "Carrboro", "Cary", "Pittsboro", "Sanford", "Los Angeles", "Hillsboro"};
         long i = 0;
@@ -78,7 +84,9 @@ public class AssnTopoSort {
         //fill with random strings from file
         long start = System.nanoTime();
         int count = 1000000;
-        System.out.printf("\n\nRandom fill of %d nodes and %d edges:\n", count, (int) (count * 1.5));
+        System.out.println("\n\nGenerating " + count + " random strings");
+        genRandStringFile(count);
+        System.out.printf("Random fill of %d nodes and %d edges:\n", count, (int) (count * 1.5));
         count = (int) (count * 2.5);
         String source = "";
         try {
@@ -100,6 +108,7 @@ public class AssnTopoSort {
                 g.addEdge(++i, dest1, dest2, 1, null);
                 g.addEdge(++i, dest1, dest3, 1, null);
                 g.addEdge(++i, dest2, dest3, 1, null);
+
             }
         } catch (FileNotFoundException ex) {
             System.err.println("File not found");
@@ -142,12 +151,13 @@ public class AssnTopoSort {
                 g.delNode(dest3);
                 i += 9;
             }
+            f.delete();
         } catch (Exception ex) {
             System.out.println("error");
         }
 
         long removed = System.nanoTime();
-        System.out.printf("Remove time: %.2f seconds\n", (double) (removed - sorted) / 1000000000.0);
+        System.out.printf("Remove time: %.2f seconds\n", (double) (removed - short_path) / 1000000000.0);
         System.out.println("All nodes and edges removed: " + (g.numEdges() == 0 && g.numNodes() == 0));
     }
 }
