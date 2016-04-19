@@ -128,7 +128,7 @@ public class AssnTopoSort {
         String[] rand_path = new String[list_path.size()];
         list_path.toArray(rand_path);
         long short_path = System.nanoTime();
-        System.out.println("Dijkstra's algorithm is of correct length: " + (rand_path.length == g.numNodes() && rand_path[(int) g.numNodes() - 1] != null));
+        System.out.println("Dijkstra's algorithm is of correct length: " + (rand_path.length == g.numNodes() && rand_path[(int) g.numNodes() - 1] != null) + " " + list_path.size());
         System.out.printf("Dijkstra's algorithm time: %.2f seconds\n", (double) (short_path - sorted) / 1000000000.0);
 
 

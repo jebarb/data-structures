@@ -107,7 +107,8 @@ public class DiGraph implements DiGraphInterface {
     }
 
     public List<String> shortestPath(String label) {
-        MinBinHeap visit = new MinBinHeap();
+        //MinBinHeap visit = new MinBinHeap();
+        MinFibHeap visit = new MinFibHeap();
         List<String> res = new LinkedList<>();
         Vertex source = vertices.get(label);
         if (source == null) return null;
@@ -117,25 +118,24 @@ public class DiGraph implements DiGraphInterface {
             if (v.getDist() != 0) {
                 v.setDist(Double.POSITIVE_INFINITY);
                 v.setParent(null);
-                v.setMarked(false);
             }
+            visit.offer(v);
         });
 
-        visit.build(vertices);
+        //visit.build(vertices);
 
-        while (visit.size() != 0) {
-            Vertex u = visit.poll();
-            if (u.isMarked()) continue;
-            u.setMarked(true);
-            for (Edge v : u.getOutEdges().values()) {
-                double alt = u.getDist() + v.getWeight();
-                if (alt < v.getDest().getDist()) {
-                    v.getDest().setDist(alt);
-                    v.getDest().setParent(u);
-                    visit.offer(v.getDest());
+
+        while (true) {
+            Vertex v = visit.poll();
+            if (v == null) break;
+            v.getOutEdges().values().forEach( e -> {
+                double alt = v.getDist() + e.getWeight();
+                if (alt < e.getDest().getDist()) {
+                    e.getDest().setParent(v);
+                    visit.decreaseKey(alt, e.getDest());
                 }
-            }
-            res.add(u.getLabel().concat(": " + u.getDist()));
+            });
+            res.add(v.getLabel().concat(": " + v.getDist()));
         }
         return res;
     }
