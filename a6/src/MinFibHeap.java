@@ -15,62 +15,53 @@ public class MinFibHeap {
     public void offer(Vertex t) {
         if (min == null) {
             min = t;
-            min.setNext(min);
-            min.setPrev(min);
-        }
-        else merge(t);
+            if (min.getNext() == null) min.setNext(min);
+            if (min.getPrev() == null) min.setPrev(min);
+        } else merge(t);
     }
 
     public Vertex poll() {
         if (min == null) return null;
         Vertex old_min = min;
-        if (min.getNext().equals(min)) {
-            if (min.getChildren() == null) {
-                min = null;
-                return old_min;
-            } else {
-                min = min.getChildren();
-                old_min = min;
-            }
-        }
-        Vertex n = min.getNext();
-        n.setPrev(min.getPrev());
-        n.getPrev().setNext(n);
-        min = n;
-        if (old_min.getChildren() != null ) merge(old_min.getChildren());
+        min = null;
+        if (old_min.getNext().compareTo(old_min) != 0) {
+            old_min.getNext().setPrev(old_min.getPrev());
+            old_min.getPrev().setNext(old_min.getNext());
+            min = old_min.getNext();
+        } else if (old_min.getChildren() == null) return old_min;
+        if (old_min.getChildren() != null) merge(old_min.getChildren());
         combine();
         return old_min;
     }
 
     public void decreaseKey(double key, Vertex t) {
-        if (min == null) {
-            t.setDist(key);
-            return;
-        }
-        if (min.compareTo(t) == 0) min = null;
-        if (t.getQueueParent() != null && t.getQueueParent().getChildren() != null &&
-                t.getQueueParent().getChildren().compareTo(t) == 0)
-            t.getQueueParent().setChildren(t.getNext());
         t.setDist(key);
-        Vertex c = t.getNext();
-        c.setPrev(t.getPrev());
-        c.getPrev().setNext(t);
-        if (min == t) min = null;
-        offer(t);
+        if (min == null) return;
+        if (t.getQueueParent() == null) {
+            if (min.compareTo(t) >= 0) min = t;
+            return;
+        } else if (t.getQueueParent().getChildren() != null &&
+                t.getQueueParent().compareTo(t) > 0) {
+            t.exitHeap();
+            offer(t);
+        }
     }
 
     private void merge(Vertex root) {
-        Vertex r = min.getNext();
-        Vertex m = root.getPrev();
-        min.setNext(root);
-        root.setPrev(min);
-        r.setNext(m);
-        m.setPrev(r);
-        if (min.compareTo(root) > 0) min = root;
+        if (min == null) min = root;
+        else {
+            Vertex r = min.getNext();
+            Vertex m = root.getPrev();
+            min.setNext(root);
+            root.setPrev(min);
+            r.setPrev(m);
+            m.setNext(r);
+            if (min.compareTo(root) > 0) min = root;
+        }
     }
 
     private void combine() {
-        ArrayList<Vertex> degrees = new ArrayList<>(/*(int)Math.ceil(Math.log(size))*/);
+        ArrayList<Vertex> degrees = new ArrayList<>();
         Vertex root = min;
         Vertex old_min = min;
         boolean combined;
@@ -81,21 +72,21 @@ public class MinFibHeap {
                     degrees.set(root.getDegree(), root);
                 else {
                     Vertex r = degrees.get(root.getDegree());
+                    if (root.compareTo(r) > 0) {
+                        Vertex temp = r;
+                        r = root;
+                        root = temp;
+                    }
                     degrees.set(r.getDegree(), null);
                     r.addChild(root);
-                    r = root.getPrev();
-                    r.setPrev(root.getNext());
-                    r.getPrev().setNext(r);
-                    if (degrees.get(root.getDegree()) == null)
-                        degrees.set(root.getDegree(), root);
+                    degrees.set(root.getDegree(), root);
                     combined = false;
-
                 }
                 root = root.getNext();
             }
         } while (!combined);
         old_min = root;
-        while (!root.equals(old_min)) {
+        while (root.compareTo(old_min) != 0) {
             if (min.compareTo(root) > 0) min = root;
             root = root.getNext();
         }

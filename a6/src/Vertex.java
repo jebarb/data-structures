@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class Vertex implements Comparable<Vertex> {
-    private boolean marked;
+    private boolean marked, queue_marked;
     private int location;
     private String label;
     private Vertex parent;
@@ -32,6 +32,9 @@ public class Vertex implements Comparable<Vertex> {
         return res;
     }
     private int setDegree() {
+        if (this.parent != null) {
+            parent.setDegree();
+        }
         int i = 1;
         Vertex c = children;
         do {
@@ -53,8 +56,21 @@ public class Vertex implements Comparable<Vertex> {
             c.next = children;
             old_next.prev = old_prev;
             old_prev.next = old_next;
+            c.parent = this;
         }
         degree += c.degree;
+    }
+
+    public void exitHeap() {
+        Vertex p = this.getQueueParent();
+        p.setChildren(this.getNext());
+        this.getNext().setQueueParent(p);
+        this.setQueueParent(null);
+        Vertex c = this.getNext();
+        c.setPrev(this.getPrev());
+        c.getPrev().setNext(c);
+        this.setPrev(this);
+        this.setNext(this);
     }
 
 
@@ -62,6 +78,14 @@ public class Vertex implements Comparable<Vertex> {
         this.children = children;
         if (next == null) this.next = this;
         if (prev == null) this.prev = this;
+    }
+
+    public boolean isQueueMarked() {
+        return queue_marked;
+    }
+
+    public void setQueueMarked(boolean queue_marked) {
+        this.queue_marked = queue_marked;
     }
 
     public Vertex getQueueParent() {

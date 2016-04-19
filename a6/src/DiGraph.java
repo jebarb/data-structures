@@ -124,7 +124,6 @@ public class DiGraph implements DiGraphInterface {
 
         //visit.build(vertices);
 
-
         while (true) {
             Vertex v = visit.poll();
             if (v == null) break;

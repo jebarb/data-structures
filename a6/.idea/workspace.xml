@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4960bd4-27f1-4d1b-801d-30819f6f697d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/MinFibHeap.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/DiGraph.class" afterPath="$PROJECT_DIR$/out/production/a6/DiGraph.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/MinBinHeap.class" afterPath="$PROJECT_DIR$/out/production/a6/MinBinHeap.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/MinFibHeap.class" afterPath="$PROJECT_DIR$/out/production/a6/MinFibHeap.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/a6/Vertex.class" afterPath="$PROJECT_DIR$/out/production/a6/Vertex.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AssnTopoSort.java" afterPath="$PROJECT_DIR$/src/AssnTopoSort.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/DiGraph.java" afterPath="$PROJECT_DIR$/src/DiGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/MinBinHeap.java" afterPath="$PROJECT_DIR$/src/MinBinHeap.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/MinFibHeap.java" afterPath="$PROJECT_DIR$/src/MinFibHeap.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Vertex.java" afterPath="$PROJECT_DIR$/src/Vertex.java" />
     </list>
     <ignored path="a6.iws" />
@@ -39,8 +37,8 @@
       <file leaf-file-name="DiGraph.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DiGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+            <state relative-caret-position="432">
+              <caret line="124" column="32" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -61,8 +59,8 @@
       <file leaf-file-name="MinFibHeap.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MinFibHeap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+            <state relative-caret-position="1608">
+              <caret line="81" column="20" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -71,9 +69,14 @@
       <file leaf-file-name="Vertex.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Vertex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
-              <folding />
+            <state relative-caret-position="360">
+              <caret line="80" column="5" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+              <folding>
+                <element signature="e#2286#2287#0" expanded="true" />
+                <element signature="e#2321#2322#0" expanded="true" />
+                <element signature="e#2377#2378#0" expanded="true" />
+                <element signature="e#2425#2426#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -121,10 +124,10 @@
         <option value="$PROJECT_DIR$/src/MinBinHeap.java" />
         <option value="$PROJECT_DIR$/src/DoublyLinkedList.java" />
         <option value="$PROJECT_DIR$/src/VertexContainer.java" />
-        <option value="$PROJECT_DIR$/src/DiGraph.java" />
         <option value="$PROJECT_DIR$/src/AssnTopoSort.java" />
-        <option value="$PROJECT_DIR$/src/Vertex.java" />
+        <option value="$PROJECT_DIR$/src/DiGraph.java" />
         <option value="$PROJECT_DIR$/src/MinFibHeap.java" />
+        <option value="$PROJECT_DIR$/src/Vertex.java" />
       </list>
     </option>
   </component>
@@ -750,7 +753,7 @@
       <workItem from="1460996084547" duration="3955000" />
       <workItem from="1461003910937" duration="1985000" />
       <workItem from="1461025129818" duration="6760000" />
-      <workItem from="1461077219440" duration="4933000" />
+      <workItem from="1461077219440" duration="9061000" />
     </task>
     <servers />
   </component>
@@ -787,7 +790,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="123122000" />
+    <option name="totallyTimeSpent" value="127250000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1159" y="45" width="1389" height="1543" extended-state="0" />
@@ -795,13 +798,13 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28208557" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28144988" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33830845" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3212509" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1176,6 +1179,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/AssnTopoSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="668">
+          <caret line="130" column="163" selection-start-line="130" selection-start-column="163" selection-end-line="130" selection-end-column="163" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/MinBinHeap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1188,32 +1199,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DiGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AssnTopoSort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="668">
-          <caret line="130" column="163" selection-start-line="130" selection-start-column="163" selection-end-line="130" selection-end-column="163" />
+        <state relative-caret-position="432">
+          <caret line="124" column="32" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Vertex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
-          <folding />
+        <state relative-caret-position="360">
+          <caret line="80" column="5" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+          <folding>
+            <element signature="e#2286#2287#0" expanded="true" />
+            <element signature="e#2321#2322#0" expanded="true" />
+            <element signature="e#2377#2378#0" expanded="true" />
+            <element signature="e#2425#2426#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MinFibHeap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+        <state relative-caret-position="1608">
+          <caret line="81" column="20" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
           <folding />
         </state>
       </provider>
