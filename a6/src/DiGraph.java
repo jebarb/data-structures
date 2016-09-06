@@ -107,8 +107,8 @@ public class DiGraph implements DiGraphInterface {
     }
 
     public List<String> shortestPath(String label) {
-        //MinBinHeap visit = new MinBinHeap();
-        MinFibHeap visit = new MinFibHeap();
+        MinBinHeap visit = new MinBinHeap();
+        //MinFibHeap visit = new MinFibHeap();
         List<String> res = new LinkedList<>();
         Vertex source = vertices.get(label);
         if (source == null) return null;
@@ -119,10 +119,10 @@ public class DiGraph implements DiGraphInterface {
                 v.setDist(Double.POSITIVE_INFINITY);
                 v.setParent(null);
             }
-            visit.offer(v);
+            //visit.offer(v); //for MinFibHeap (not working fully)
         });
 
-        //visit.build(vertices);
+        visit.build(vertices); //for MinBinHeap
 
         while (true) {
             Vertex v = visit.poll();
