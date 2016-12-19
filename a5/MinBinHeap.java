@@ -16,18 +16,16 @@ public class MinBinHeap implements HeapInterface {
                 entries[i] = array[i];
             array = entries;
         }
-        array[size()+1] = entry;
-        bubbleUp(size()+1);
-        size++;
+        array[++size] = entry;
+        bubbleUp(size());
     }
 
     public void delMin() {
         if (array[1] != null) {
             if (array[2] == null) array[1] = null;
             array[1] = array[size()];
-            array[size()] = null;
+            array[size--] = null;
             if (array[2] != null) bubbleDown(1);
-            size--;
         }
     }
 
