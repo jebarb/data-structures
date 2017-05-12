@@ -136,6 +136,11 @@ public class DiGraph implements DiGraphInterface {
             });
             res.add(v.getLabel().concat(": " + v.getDist()));
         }
+        //Vertex v = vertices.get(label);
+        //while (v != null) {
+        //  res.add(0, v.getLabel().concat(": " + v.getDist()));
+        //  v = v.getParent();
+        //}
         return res;
     }
 }
